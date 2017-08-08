@@ -1,30 +1,30 @@
 # Charitable
-安装说明文档
-项目环境
-使用环境：PHP 5.65+ mysql5.5 +Nginx Window
-使用框架：Yaf2.0
-表结构：编辑器打开charity.sql既可
-步骤一：安装集成环境xamp3.2.2.exe
-步骤二：
+1. 安装说明文档
+2. 项目环境
+ 1. 使用环境：PHP 5.65+ mysql5.5 +Nginx Window
+ 2. 使用框架：Yaf2.0
+ 3. 表结构：编辑器打开charity.sql既可
+ 4. 步骤一：安装集成环境xamp3.2.2.exe
+ 5. 步骤二：
 1.安装完成后进入xamp/php/ 修改php.ini文件 尾部添加以下代码
-[yaf]
+>[yaf]
   yaf.library =  C:\xampp\htdocs\library
-extension=php_yaf.dll
-2.进入C:\xampp\php\ext文件夹添加php_yaf.dll文件
+>extension=php_yaf.dll
+2. 进入C:\xampp\php\ext文件夹添加php_yaf.dll文件
 PS：修改配置文件添加yaf框架拓展 载入library类库  路径请根据实际情况修改
-3.集成环境默认安装mysql phpmyadmin 新建数据库名为charty 导入数据可以charty.sql即可
+3. 集成环境默认安装mysql phpmyadmin 新建数据库名为charty 导入数据可以charty.sql即可
 
 步骤三：
-1.charity为后台源码 www.charity.com为前台源码
-2.进入对应文件夹中的charity\www.charity.com\config\application.ini文件
+1. charity为后台源码 www.charity.com为前台源码
+2. 进入对应文件夹中的charity\www.charity.com\config\application.ini文件
 修改数据库对应地址 账号 密码
-3.修改配置
-1.Application.host主机名，修改为当前域名
-2.application.image_url，图片路径，修改为当前域名
+3. 修改配置
+1. Application.host主机名，修改为当前域名
+2. application.image_url，图片路径，修改为当前域名
 
-3.支付接口
-\library\Pay\Weixin\WxPay.Config.php配置相关参数 证书4个  调用2个
-	4.微信公众后台 对应配置都要修改
+3. 支付接口
+> \library\Pay\Weixin\WxPay.Config.php配置相关参数 证书4个  调用2个
+4. 4.微信公众后台 对应配置都要修改
 
 
 ~~~
