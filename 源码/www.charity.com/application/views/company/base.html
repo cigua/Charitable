@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>基本信息</title>
+    <link type="text/css" rel="stylesheet" href="/public/css/skin.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/f-awesome/font-awesome.min.css" />
+    <link rel="stylesheet" href="/public/css/bootstrap-customfile.css" />
+    <link rel="stylesheet" href="/public/css/bootstrap-datetimepicker.css" />
+    <link rel="stylesheet" href="/public/css/weui.min.css">
+    <link rel="stylesheet" href="/public/css/jquery-weui.css">
+    <script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="/public/js/jquery-weui.js"></script>
+    <script type="text/javascript" src="/public/js/city-picker.js"></script>
+    <script src="/public/js/bootstrap-datetimepicker.js"></script>
+    <script src="/public/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="/public/js/jquery.ajaxfileupload.js"></script>
+    <script src="/public/js/bootstrap-customfile.js"></script>
+    <script src="/public/js/bootstrap-datetimepicker.js"></script>
+    <script src="/public/js/jquery.artDialog-4.1.7.min.js"></script>
+</head>
+<body>
+<style>
+    .weui_cell{padding-top:0;}
+    .weui_cell::before{border:none!important;}
+</style>
+<div class="find_nav">
+    <div class="header">
+        <div class="return"><a href="/company/register"><img src="/public/images/skin/return.png"></a></div>
+        <div class="title">基本信息</div>
+        <a href="javascript:void(0);" class="bank_right" id="baseBtn">提交</a>
+    </div>
+</div>
+<div class="daturm_header">
+    <h2>证件照片需要保证清晰度,否着可能影响通过率</h2>
+</div>
+<form id="baseForm" >
+<div class="raise_wrapper">
+    <!--新加图片上传插件-->
+
+    <div class="pe-spacer size10"></div>
+    <div class="raise_content base_style">
+        <div class="raise_item clearafter">
+            <label>机构名称：</label>
+            <p><input type="text" name="c_name" id="c_name" value="{{$baseInfo.c_name}}" placeholder="请输入机构名称"/></p>
+        </div>
+        <div class="raise_item clearafter">
+            <div class="weui_cell_hd"><label for="c_createTime" class="weui_label">成立时间：</label></div>
+            <!---新的时间-->
+            <div class="weui_cell" style="border-top:none;">
+                <div class="weui_cell_bd weui_cell_primary">
+                    <input class="weui_input" id="c_createTime" name="c_createTime" type="text" value="{{$time}}">
+                </div>
+            </div>
+        </div>
+        <!--<div class="raise_item clearafter">-->
+            <!--<label>所在地：</label>-->
+            <!--<p><input type="text" placeholder="福建福州"/></p>-->
+        <!--</div>-->
+        <input type="hidden" name="c_city" id="c_city" value="{{$baseInfo.c_city}}">
+        <div class="raise_item clearafter">
+            <div class="weui_cells weui_cells_form search_city">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label" for="home-city">所在地：</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" id="home-city" type="text" value="{{$baseInfo.c_city}}" placeholder="请选择城市">
+                    </div>
+                </div>
+                <div class="base_postion"><span class="icon icon-angle-right"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="pe-spacer size10"></div>
+    <div class="raise_content " id="edit_myfrom">
+        <div class="raise_item clearafter">
+            <label>机构简介</label>
+        </div>
+        <div class="base_test">   <textarea name="c_des" cols="" rows="" maxlength="200">{{$baseInfo.c_des}}</textarea></div>
+        <div class="base_test_much">  <p id="numtj"><var style="color:#fb6c03">--</var><span class="color_gray">/200</span></p></div>
+    </div>
+    <div class="pe-spacer size10"></div>
+    <div class="raise_content">
+        <div class="daturm_item clearafter">
+            <h2>主图与轮播图片</h2>
+        </div>
+
+        <!---图片上传放这里-->
+        <!--<input type="file" name="upload" id="upload" onchange="return ajaxFileUpload();">-->
+        <input accept="image/*" type="file" id="upload">
+        <div id="imagesList">
+            {{if $baseInfo.file}}
+                {{foreach from=$baseInfo.file item=vo}}
+				<div class="img_left">
+                    <div><img src="{{$vo}}" style="max-width:200px;"/></div>
+                    <div class="order">
+                    <input type="hidden" name="file[]" value="{{$vo}}" />
+                    </div>
+				</div>	
+                {{/foreach}}
+            {{/if}}
+        </div>
+        <div class="pe-spacer size20"></div>
+        <p class="daturm_text">建议第一张上传机构LOGO或标志性图片</p>
+    </div>
+    <div>
+    <div class="pe-spacer size10"></div>
+</div>
+    </form>
+</body>
+<script src="/public/js/lrz_index1.js"></script>
+<script src="/public/js/lrz_index2.js"></script>
+<script>
+
+    $("#c_createTime").calendar();
+
+    $("#home-city").cityPicker({
+        title: "请选择城市",
+        showDistrict: false
+    });
+
+    $(document).on('click', '.close-picker',function(){
+        $('#c_city').val($('#home-city').val());
+        $('#searchForm').submit();
+    })
+
+    $(document).ready(function(){
+        $(document).keyup();
+//        $("#upload").customFileInput();
+        var text=$("#edit_myfrom textarea").val();
+        var counter=text.length;
+        $("#numtj var").text(200-counter);
+        $(document).keyup(function() {
+            var text=$("#edit_myfrom textarea").val();
+            var counter=text.length;
+            $("#numtj var").text(200-counter);
+        });
+
+        $('#baseBtn').click(function(){
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url:'/ajax/company/base',
+                data:$('#baseForm').serialize(),// 你的formid
+                async: false,
+                dataType: "json",
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    if(data.status == 'y'){
+                        location.href = '/company/register';
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            });
+        })
+		
+		$(document).on('click','.removeImg',function(){
+			$(this).parent().remove();
+		})
+    });
+
+    document.getElementById('upload').addEventListener('change', function () {
+        var that = this;
+
+        lrz(that.files[0], {
+            width: 800
+        })
+                .then(function (rst) {
+                    var submitData={
+                        image:rst.base64,
+                        name:rst.origin.name,
+                        fileLength:rst.base64.length
+                    };
+
+                    ajaxFileUpload(submitData);
+
+                    return rst;
+                });
+
+    });
+
+    function ajaxFileUpload(submitData) {
+        $.ajax({
+            type: "POST",
+            url: "/company/upload",
+            data: submitData,
+            dataType:"json",
+            success: function(data){
+                if(data.status == 'y'){
+                    if ( data.status == 'y' ) {
+                        var html = '<div class="img_left">';
+                    html += '<div style="position:relative"><img src="'+ data.info.http +'" style="max-width:200px;"/><a href="javascript:void(0);" class="removeImg"><i class="icon-remove" ></i></a></div>';
+                        html += '<div class="order">';
+                        html += '<input type="hidden" name="file[]" value="'+data.info.http+'" />';
+                        html += '</div>';
+						html += '</div>';
+                        $('#imagesList').append(html);
+                        return;
+                    }
+                }else{
+                    alert(data.info);
+                }
+            },
+        });
+    }
+</script>
+
+</html>

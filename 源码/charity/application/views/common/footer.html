@@ -1,0 +1,32 @@
+<div class="bottom">Copyright © 2014-2015 xxx. All Rights Reserved</div>
+
+<script>
+    window.onload=function() {
+        var Aleft=document.getElementById('left');
+        var Aright=document.getElementById('right');
+
+        Aleft.style.minHeight=window.innerHeight-130+"px";
+        Aright.style.minHeight=window.innerHeight-130+"px";
+        Aright.style.width=window.innerWidth-207+"px";
+
+    };
+    window.onresize=function() {
+        var Aleft=document.getElementById('left');
+        var Aright=document.getElementById('right');
+
+        Aleft.style.minHeight=window.innerHeight-130+"px";
+        Aright.style.minHeight=window.innerHeight-130+"px";
+        Aright.style.width=window.innerWidth-207+"px";
+
+    };
+
+    $(function(){
+        $.getJSON("/ajax/stat/data/", function( response ) {
+            if ( response.code != 1 ) { return false;}
+
+            $("#companyName").after(response.data.name);
+        });
+    });
+</script>
+</body>
+</html>

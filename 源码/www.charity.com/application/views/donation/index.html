@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<meta name="author" content="" />
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+<title>本市慈善</title>
+<link type="text/css" rel="stylesheet" href="/public/css/skin.css" />
+<link type="text/css" rel="stylesheet" href="/public/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="/public/js/dropload/dropload.css" />
+<link type="text/css" rel="stylesheet" href="/public/css/f-awesome/font-awesome.min.css" />
+</head>
+<body>
+<div class="bodies_header clearafter">
+    <a href="/pay/order/?event=company&id={{$companyInfo.c_id}}" class="bodies_left">机构首页</a>
+    <a href="/donation/index?id={{$companyInfo.c_id}}" class="bodies_center on">本市慈善</a>
+    <a href="/news/index?id={{$companyInfo.c_id}}" class="bodies_right">机构动态</a>
+</div>
+<div id="list">
+<div class="bod_wrapper" id="donation_list">
+    {{if $data}}
+    {{foreach from=$data item=vo}}
+    <a href="/pay/order/?event=charity&id={{$vo.d_id}}">
+    <div class="bod_center">
+        <div class="bod_header"><img src="{{$vo.m_avatar}}">
+            <h2>{{$vo.m_name}}<span>{{$vo.d_addTime}}发布</span></h2>
+        </div>
+        <div class="banner_img"><img src="{{$vo.d_img}}"></div>
+        <div class="bod_content">
+            <h2>{{$vo.d_title}}{{if $vo.d_status==2}}(<font color="red">未审核</font>){{/if}}</h2>
+            <p class="brief_text">简介：{{$vo.d_content}}</p>
+            <div class="bod_like clearafter">
+                <div class="like_left">
+                    <ul class="clearafter">
+                        {{if $vo.members}}
+                            {{foreach from=$vo.members item=v}}
+                                <li><img src="{{$v.m_avatar}}"></li>
+                            {{/foreach}}
+                        {{/if}}
+
+                    </ul>
+                </div>
+                <div class="like_right"><span class="list_color">{{$vo.d_up}}</span>人支持</div>
+            </div>
+            <div class="like_much clearafter">
+                <div class="much_left"><span>目标</span>{{$vo.d_target}}元</div>
+                <div class="much_center"><span>已筹</span>{{$vo.d_collect}}元</div>
+                <div class="much_right"><span>剩余</span>{{$vo.leftDay}}天</div>
+            </div>
+        </div>
+    </div>
+        </a>
+    {{/foreach}}
+	{{else}}
+		<h2 style="text-align:center;">暂无发布</h2>
+    {{/if}}
+
+</div>
+
+</div>
+  <div class="pe-spacer size60"></div>
+<div class="wx_menu clearafter">
+    <div class="menu_left">
+        <a href="/member/index">
+            <img src="{{$smarty.const.M_AVATAR}}">
+            <div class="menu_info">
+                <p>{{$smarty.const.M_NAME}}</p><p class="color_blue">个人中心</p></div>
+        </a>
+    </div>
+    <div class="menu_right"><a href='/donation/publish?id={{$companyInfo.c_id}}'>发布慈善</a></div>
+</div>
+</div>
+
+</body>
+<script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="/public/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript" src="/public/js/dropload/dropload.min.js"></script>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    var appId      = '{{$signPackage.appId}}';var timestamp = '{{$signPackage.timestamp}}';
+    var nonceStr   = '{{$signPackage.nonceStr}}';var signature = '{{$signPackage.signature}}';
+    var title      = "{{$shareConfig.s_title}}";
+    var main_title = "{{$shareConfig.s_content}}";
+    var imgurl = "{{$shareConfig.s_img}}";
+    var url = "{{$smarty.const.APP_DOMAIN}}/donation/index/id/{{$companyInfo.c_id}}";
+</script>
+<script type="text/javascript">
+wx.config({
+        appId: appId,
+        timestamp:timestamp,
+        nonceStr: nonceStr,
+        signature: signature,
+        jsApiList: [
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: main_title,
+            desc:  title,
+            link:  url,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+
+        wx.onMenuShareAppMessage({
+            title: main_title,
+            desc:  title,
+            link: url,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+
+        wx.onMenuShareQQ({
+            title: main_title,
+            desc:  title,
+            link:  url ,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+    });
+
+    //分享回调数据
+    function getShareBack(){
+    }
+
+    $(function () {
+        $('#home_slider').flexslider({
+            animation : 'slide',
+            controlNav : true,
+            directionNav : true,
+            animationLoop : true,
+            slideshow : false,
+            useCSS : false
+        });
+									
+    });
+
+    var pageSize= parseInt('{{$pageSize}}');
+    var total = parseInt('{{$total}}');
+
+    $(function(){
+        var page = 2;
+        if(total >= pageSize) {
+            $("#list").dropload({
+                domDown : {
+                    domClass   : 'dropload-down',
+                    domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+                    domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                    domNoData  : '<div class="dropload-noData">没有啦╮(╯_╰)╭</div>'
+                },
+                scrollArea : window,
+                loadDownFn : function(me){
+                    $.ajax({
+                        type: 'GET',
+                        url : "/donation/index?id={{$companyInfo.c_id}}&page=" + page + '&type=load',
+                        dataType: 'html',
+                        success: function(data){
+                            if(data) {
+                                //赋值数据
+                                $("#donation_list").append(data);
+                                page++;
+                            } else {
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                                //$('.dropload-noData').hide();
+                            }
+                            // 每次数据加载完，必须重置
+                            me.resetload();
+                        },
+                        error: function(xhr, type){
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            });
+        }
+
+    });
+
+
+
+
+</script>
+</html>

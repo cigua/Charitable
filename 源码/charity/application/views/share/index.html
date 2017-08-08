@@ -1,0 +1,57 @@
+{{include file="common/header.html"}}
+
+<div class="main">
+    {{include file="common/menu.html"}}
+
+    <div id="right">
+        <!--面包屑导航-->
+        <ol class="breadcrumb">
+            <li><a href="javascript:void(0);">慈善管理 </a></li>
+            <li class="active">分享管理</li>
+        </ol>
+
+        <div class="right_con">
+              <button type="button" class="btn btn-default pull-right" onclick="window.location.reload();">刷新界面</button>
+
+
+            <div class="clear10"></div>
+
+            <!-- 表格 -->
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>类型</td>
+                    <td>标题</td>
+                    <td>内容</td>
+                    <td>操作</td>
+                </tr>
+                {{if $data}}
+                {{foreach from=$data item=row}}
+                <tr>
+                    <td>{{$cateList[$row.s_type]}}</td>
+                    <td>{{$row.s_title}}</td>
+                    <td>{{$row.s_content}}</td>
+                    <td>
+                        <a class="glyphicon glyphicon-edit" href="{{$baseUrl}}/form/id/{{$row.s_id}}" title="编辑"></a>&nbsp;&nbsp;
+                    </td>
+                </tr>
+                {{/foreach}}
+                {{/if}}
+            </table>
+
+            <!-- 分页 -->
+            {{if $data}}
+            <nav>
+                <ul class="pagination pull-right">{{$page}}</ul>
+            </nav>
+            {{/if}}
+        </div>
+
+        <!--&lt;!&ndash;弹窗&ndash;&gt;-->
+        <!--<form class="form-horizontal" action="/ajax/case/save/" method="post">-->
+            <!--<div class="modal fade" id="adminModal" tabindex="-1" role="dialog"></div>-->
+        <!--</form>-->
+    </div>
+    <div class="clear"></div>
+</div>
+
+{{include file="common/footer.html"}}

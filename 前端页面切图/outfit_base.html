@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>123</title>
+    <link type="text/css" rel="stylesheet" href="css/skin.css" />
+    <link type="text/css" rel="stylesheet" href="css/style.css" />
+    <link type="text/css" rel="stylesheet" href="css/f-awesome/font-awesome.min.css" />
+    <link rel="stylesheet" href="css/weui.min.css">
+    <link rel="stylesheet" href="css/jquery-weui.css">
+    <script type="text/javascript" src="js/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="js/jquery-weui.js"></script>
+    <script type="text/javascript" src="js/city-picker.js"></script>
+</head>
+<body>
+<div class="find_nav">
+    <div class="header">
+        <div class="return"><a href="index.html"><img src="images/skin/return.png"></a></div>
+        <div class="title">基本信息</div>
+        <a href="#" class="bank_right">提交</a>
+    </div>
+</div>
+<div class="daturm_header">
+    <h2>证件照片需要保证清晰度,否着可能影响通过率</h2>
+</div>
+<div class="raise_wrapper">
+    <div class="pe-spacer size10"></div>
+    <div class="raise_content base_style">
+        <div class="raise_item clearafter">
+            <label>机构名称：</label>
+            <p><input type="text" placeholder="徐州慈善总会"/></p>
+        </div>
+        <div class="raise_item clearafter">
+            <label>成立时间：</label>
+            <p><input type="text" placeholder="1990年10月16日"/></p>
+        </div>
+        <div class="raise_item clearafter">
+            <label>所在地：</label>
+            <p><input type="text" placeholder="福建福州"/></p>
+        </div>
+        <div class="raise_item clearafter">
+            <div class="weui_cells weui_cells_form search_city">
+                <div class="weui_cell">
+                    <div class="weui_cell_hd"><label class="weui_label" for="home-city">所在地：</label></div>
+                    <div class="weui_cell_bd weui_cell_primary">
+                        <input class="weui_input" id="home-city" type="text" value="请选择城市">
+                    </div>
+                </div>
+                <div class="base_postion"><span class="icon icon-angle-right"></span></div>
+            </div>
+        </div>
+    </div>
+    <div class="pe-spacer size10"></div>
+        <div class="raise_content " id="edit_myfrom">
+            <div class="raise_item clearafter">
+                <label>机构简介</label>
+            </div>
+            <div class="base_test">   <textarea name="" cols="" rows="" maxlength="200">弘扬法弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神弘扬法律精神律精神</textarea></div>
+            <div class="base_test_much">  <p id="numtj"><var style="color:#fb6c03">--</var><span class="color_gray">/200</span></p></div>
+            </div>
+            <div class="pe-spacer size10"></div>
+            <div class="raise_content">
+        <div class="daturm_item clearafter">
+            <h2>主图与轮播图片</h2>
+        </div>
+        <!---图片上传放这里-->
+        <div class="pe-spacer size20"></div>
+        <p class="daturm_text">建议第一张上传机构LOGO或标志性图片</p>
+    </div>
+    <div class="pe-spacer size10"></div>
+</div>
+</body>
+<script>
+    $("#home-city").cityPicker({
+        title: "请选择城市",
+        showDistrict: false
+    });
+
+            $(document).ready(function(){
+                var text=$("#edit_myfrom textarea").val();
+                var counter=text.length;
+                $("#numtj var").text(200-counter);
+                $(document).keyup(function() {
+                    var text=$("#edit_myfrom textarea").val();
+                    var counter=text.length;
+                    $("#numtj var").text(200-counter);
+                });
+            });
+</script>
+</html>

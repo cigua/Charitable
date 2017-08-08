@@ -1,0 +1,13 @@
+{{if $data}}
+{{foreach from=$data item=vo}}
+<li class="clearafter">
+    <a href="/pay/order/?event=company&id={{$vo.c_id}}">
+        <img src="{{$vo.c_avatar}}">
+        <div class="search_item_right">
+            <h2>{{$vo.c_name}}{{if $vo.c_check_status == 1}}<span class="slide_on"><img src="/public/images/skin/banner_icon.png">已认证</span>{{/if}}</h2>
+            <p>{{$vo.c_des}}</p>
+        </div>
+    </a>
+</li>
+{{/foreach}}
+{{/if}}

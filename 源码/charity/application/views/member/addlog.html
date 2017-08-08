@@ -1,0 +1,118 @@
+{{include file="common/header.html"}}
+<link href="/public/js/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+
+<div class="main">
+    {{include file="common/menu.html"}}
+
+    <div id="right">
+        <!--面包屑导航-->
+        <ol class="breadcrumb">
+            <li><a href="/member/index">用户列表管理 </a></li>
+            <li class="active">添加捐赠</li>
+        </ol>
+
+        <div class="right_con">
+
+            <form class="form-horizontal" id="form-save" action="/ajax/member/save/">
+                <div class="tab-pane active" id="basic_right">
+                    <input type="hidden" name="id" value="{{$row.c_id}}" />
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">捐赠人名称</label>
+                        <div class="col-sm-4 controls">
+                            <input type="text" class="form-control" name="c_name" value="{{$row.c_name}}" placeholder="名称" datatype="*" nullmsg="请填写捐赠人名称" style="width: 500px;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">捐赠类型</label>
+                        <div class="col-sm-4">
+                            <select datatype="*"  nullmsg="请选择捐赠类型" id="c_type" name="c_type" class="form-control" style="width: 200px;">
+                                {{$typeOption}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group controls">
+                        <label class="col-sm-2 control-label">所在机构</label>
+                        <div class="col-sm-4">
+                            <select datatype="*"  nullmsg="请选择机构" id="c_cid" name="c_cid" class="form-control" style="width: 200px;">
+                                {{$companyOption}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">捐赠金额</label>
+                        <div class="col-sm-4">
+                            <input type="text" class="form-control" name="c_price" value="{{$row.c_price}}" placeholder="金额" datatype="*" nullmsg="捐赠金额" style="width: 500px;"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">捐赠内容</label>
+                        <div class="col-sm-4">
+                            <textarea name="c_content" id="c_content" style="width:800px; height:250px;" >{{$row.c_content}}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">匿名状态</label>
+                        <div class="col-sm-4">
+                            <select datatype="*"  nullmsg="请选择匿名状态" id="c_anonymous" name="c_anonymous" class="form-control" style="width: 200px;">
+                                {{$anonymousOption}}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label"></label>
+                        <div class="controls">
+                            <button class="btn btn-primary" type="submit">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!--&lt;!&ndash;弹窗&ndash;&gt;-->
+        <!--<form class="form-horizontal" action="/ajax/case/save/" method="post">-->
+        <!--<div class="modal fade" id="adminModal" tabindex="-1" role="dialog"></div>-->
+        <!--</form>-->
+    </div>
+    <div class="clear"></div>
+</div>
+<script src="/public/js/umeditor/umeditor.config.js"></script>
+<script src="/public/js/umeditor/umeditor.js"></script>
+<script src="/public/js/umeditor/lang/zh-cn/zh-cn.js"></script>
+<script src="/public/js/jquery.ajaxfileupload.js"></script>
+<script src="/public/js/bootstrap-customfile.js"></script>
+<script src="/public/js/bootstrap-datetimepicker.js"></script>
+<script>
+    var editor =  '';
+    var count  =  '{{$count}}';
+    var url = '{{$url}}';
+    $(function(){
+        UM.getEditor('c_content');
+        $("#upload").customFileInput();
+    });
+
+    $("#form-save").Validform({
+        ajaxPost: true,
+        tipSweep: true,
+        tiptype:function(msg,o,cssctl){
+            if(o.type == 3)
+                $.dialog.tips(msg);
+        },
+        beforeSubmit:function(curform){
+        },
+        callback:function(response){
+            $.dialog.tips(response.info);
+            if ( response.status == 'y' ) {
+                window.setTimeout(function(){
+                    if(url){
+                        location.href = url;
+                    }else{
+                        location.reload();
+                    }
+
+                }, 2000)
+            }
+        }
+    });
+</script>
+{{include file="common/footer.html"}}

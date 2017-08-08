@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>动态详情</title>
+    <link type="text/css" rel="stylesheet" href="/public/css/skin.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/f-awesome/font-awesome.min.css" />
+    <link rel="stylesheet" href="/public/css/weui.min.css">
+    <link rel="stylesheet" href="/public/css/jquery-weui.css">
+    <script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="/public/js/jquery-weui.js"></script>
+    <script type="text/javascript" src="/public/js/city-picker.js"></script>
+</head>
+<style type="text/css">
+    .share_bg{ position: fixed;width:100%;height:100%; background: rgba(0,0,0,.5);top:0;left:0; z-index: 9;}
+    .share_home{ position: fixed;width:100%;height:100%;top:30%; font-size: 20vw; text-align: center;color:#fff;z-index:99;}
+	.share_home h2{ font-size:14px;}
+    h2{color:#fff;}
+    .money_bg{ position:fixed;width:100%;height:100%; background: rgba(0,0,0,.5);top:0;left:0; z-index: 999;}
+    .money_much{ position: fixed;padding:30px 20px 20px; text-align:center;left:50%;top:50%;width:260px;height:150px;margin:-150px 0 0 -150px; background: #fff;color:#333; z-index: 2999;}
+    .money_much input{ width:80%; background: #f5f5f5;padding:10px 5px; text-align: center;}
+    .money_much button{ width:80%; background: #c33;color:#fff;margin-top: 30px;height:50px;}
+</style>
+<body style=" background: #f3f3f3;">
+<div class="find_nav">
+    <div class="header">
+        <div class="title">动态详情</div>
+    </div>
+</div>
+<div class="article_body ">
+    <h2>{{$info.a_title}}</h2>
+    <div class="article_info"><p class="clearafter"><img src="/public/images/skin/article_icon01.jpg">{{$info.a_addTime}}</p></div>
+    <div class="article_info"><p class="clearafter"><img src="/public/images/skin/article_icon02.jpg">{{$companyInfo.c_name}}</p></div>
+    <div class="article_info"><p class="clearafter"><img src="/public/images/skin/article_icon03.jpg">{{$info.a_view|default:0}}人看过</p></div>
+    <div class="article_content">
+        <img src="{{$info.a_img}}">
+    </div>
+    <div class="pe-spacer size20"></div>
+    <div class="article_share"><button type="submit" class="" id="share">分享</button></div>
+</div>
+</div>
+
+
+<div class="share_bg hide"></div>
+<div class="share_home hide">
+    <h2>点击右上角更多，分享本项目</h2>
+</div>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+</body>
+<script>
+    var appId      = '{{$signPackage.appId}}';var timestamp = '{{$signPackage.timestamp}}';
+    var nonceStr   = '{{$signPackage.nonceStr}}';var signature = '{{$signPackage.signature}}';
+    var title      = "{{$shareConfig.s_title}}";
+    var main_title = "{{$shareConfig.s_content}}";
+    var imgurl = "{{$shareConfig.s_img}}";
+    var url = "{{$smarty.const.APP_DOMAIN}}/news/details/id/{{$info.a_id}}";
+</script>
+<script>
+    //For Fancy Lightbox:
+    jQuery(document).ready(function($) {
+                $('#share').click(function () {
+                    $('.share_bg').removeClass('hide');
+                    $('.share_home').removeClass('hide');
+                })
+
+                $('.share_home').click(function () {
+                    $('.share_bg').addClass('hide');
+                    $('.share_home').addClass('hide');
+                })
+            })
+
+    wx.config({
+        appId: appId,
+        timestamp:timestamp,
+        nonceStr: nonceStr,
+        signature: signature,
+        jsApiList: [
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: main_title,
+            desc:  title,
+            link:  url,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+
+        wx.onMenuShareAppMessage({
+            title: main_title,
+            desc:  title,
+            link: url,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+
+        wx.onMenuShareQQ({
+            title: main_title,
+            desc:  title,
+            link:  url ,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+    });
+
+    //分享回调数据
+    function getShareBack(){
+        //分享完成 回调数据
+//        $.ajax({
+//            type:'GET',
+//            url : "/ajax/product/share?pid=" + pid + '&tid=' + tid,
+//            dataType: 'json',
+//            success: function(data){},
+//            error: function(){
+//                $.alert('数据错误');
+//            }
+//        })
+    }
+
+</script>
+</html>

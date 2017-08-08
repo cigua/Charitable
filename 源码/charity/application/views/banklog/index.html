@@ -1,0 +1,88 @@
+{{include file="common/header.html"}}
+
+<div class="main">
+    {{include file="common/menu.html"}}
+
+    <div id="right">
+        <!--面包屑导航-->
+        <ol class="breadcrumb">
+            <li><a href="javascript:void(0);">银行卡提现记录 </a></li>
+            <!--<li><a href="/admin/index/">帐号管理</a></li>-->
+            <li class="active">提现记录列表</li>
+        </ol>
+
+        <div class="right_con">
+            {{if $smarty.const.A_ROLE == 0}}
+            <form class="form-inline pull-left">
+                <div class="form-group">
+                    提现角色：
+                    <select name="type" id="type" class="form-control">
+                        {{$typeOption}}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+            {{/if}}
+			
+			<button type="button" data-toggle="modal" data-target="#adminModal" href="/banklog/form/"  class="btn btn-default pull-right" >提现</button>
+			
+            <button type="button" class="btn btn-default pull-right" onclick="window.location.reload();">刷新界面</button>
+            <div class="clear10"></div>
+			{{if $smarty.const.A_ROLE > 0}}
+			总金额：<font color='red'>{{$cashInfo.ca_total|default:0}}</font>,已提现金额：<font color='red'>{{$cashInfo.ca_used|default:0}}</font>,未提现金额：<font color='red'>{{$cashInfo.ca_left|default:0}}</font>
+			{{/if}}
+            <!-- 表格 -->
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>提现角色</td>
+                    <td>开户人名（机构为支付宝姓名）</td>
+                    <td>开户银行（机构为空）</td>
+                    <td>银行卡号（机构为支付宝账号）</td>
+                    <td>提现价格</td>
+                    <td>提现时间</td>
+                    <td>提现状态</td>
+                </tr>
+                {{if $data}}
+                {{foreach from=$data item=row}}
+                <tr>
+                    {{if $smarty.const.A_ROLE != 0}} <td>{{$row.c_name}}</td>{{else}} <td>{{if $row.bl_type==1}}<span class="label label-success">{{$row.c_name}}</span>{{else}}<span class="label label-danger">个人申请</span>{{/if}}</td>{{/if}}
+                    <td>{{$row.bl_bank_name}}</td>
+                    <td>{{$row.bl_bank}}</td>
+                    <td>{{$row.bl_card_numb}}</td>
+                    <td>{{$row.bl_price}}</td>
+                    <td>{{$row.bl_addtime}}</td>
+                    <td><span class="label label-success">已提现</span></td>
+                </tr>
+                {{/foreach}}
+                {{/if}}
+            </table>
+            <!-- 分页 -->
+            {{if $data}}
+            <nav>
+                <ul class="pagination pull-right">{{$page}}</ul>
+            </nav>
+            {{/if}}
+        </div>
+    </div>
+    <div class="clear"></div>
+	        <!--弹窗-->
+        <form class="form-horizontal" action="/ajax/company/fund" method="post">
+            <div class="modal fade" id="adminModal" tabindex="-1" role="dialog"></div>
+        </form>
+</div>
+<script>
+	function funds(){
+		$.post('/ajax/company/fund', {}, function(data){
+			if(data.status == 'y'){
+				alert(data.info);
+				location.reload();
+			}else{
+				alert(data.info);
+			}
+		
+		}, 'json')
+	}
+
+</script>
+
+{{include file="common/footer.html"}}

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>慈善机构智慧平台</title>
+    <link type="text/css" rel="stylesheet" href="/public/css/skin.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/f-awesome/font-awesome.min.css" />
+    <link rel="stylesheet" href="/public/css/weui.min.css">
+    <link rel="stylesheet" href="/public/css/jquery-weui.css">
+    <link type="text/css" rel="stylesheet" href="/public/js/dropload/dropload.css" />
+    <script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="/public/js/jquery-weui.js"></script>
+    <script type="text/javascript" src="/public/js/city-picker.js"></script>
+    <script type="text/javascript" src="/public/js/dropload/dropload.min.js"></script>
+</head>
+<body style=" background: #f3f3f3;">
+<div class="find_nav">
+    <div class="header">
+        <div class="title">慈善机构名称</div>
+    </div>
+</div>
+<form action="" method="get" id="searchForm">
+<div class="search_header">
+    <input type="text" name="search" id="search" value="{{$search}}" placeholder="请输入机构名称进行搜索" />
+    <input type="hidden" name="city" id="city" value="{{$prov_city}}">
+</div>
+</form>
+<div class="search_wrapper" id="list">
+    <div class="weui_cells weui_cells_form search_city">
+        <div class="weui_cell">
+            <div class="weui_cell_hd" ><label class="weui_label" for="home-city">点击选择城市:</label></div>
+            <div class="weui_cell_bd weui_cell_primary">
+                <input class="weui_input" id="home-city" type="text" value="{{if $prov}}{{$prov}} {{$city}}{{else}}全国{{/if}}" placeholder="全国">
+            </div>
+        </div>
+        <!--<span class="city_postion">城市选中 ></span>-->
+    </div>
+    <ul class="search_item clearafter" id="company_list">
+        {{if $data}}
+            {{foreach from=$data item=vo}}
+                <li class="clearafter">
+                    <a href="/pay/order/?event=company&id={{$vo.c_id}}">
+                    <img src="{{$vo.c_avatar}}">
+                    <div class="search_item_right">
+                        <h2>{{$vo.c_name}}{{if $vo.c_check_status == 1}}<span class="slide_on"><img src="/public/images/skin/banner_icon.png">已认证</span>{{/if}}</h2>
+                        <p>{{$vo.c_des}}</p>
+                    </div>
+                    </a>
+                </li>
+            {{/foreach}}
+        {{/if}}
+
+
+    </ul>
+</div>
+<div class="pe-spacer size60"></div>
+{{include file="common/footer.html"}}
+</body>
+<script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+    var appId      = '{{$signPackage.appId}}';var timestamp = '{{$signPackage.timestamp}}';
+    var nonceStr   = '{{$signPackage.nonceStr}}';var signature = '{{$signPackage.signature}}';
+    var title      = "{{$shareConfig.s_title}}";
+    var main_title = "{{$shareConfig.s_content}}";
+    var imgurl = "{{$shareConfig.s_img}}";
+    var url = "{{$smarty.const.APP_DOMAIN}}";
+</script>
+<script>
+    $(document).ready(function(){
+        $("#home-city").cityPicker({
+            title: "请选择城市",
+            showDistrict: false,
+
+        });
+
+        $(document).on('click', '.close-picker',function(){
+            $('#city').val($('#home-city').val());
+            $('#searchForm').submit();
+        })
+    })
+
+	wx.config({
+        appId: appId,
+        timestamp:timestamp,
+        nonceStr: nonceStr,
+        signature: signature,
+        jsApiList: [
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ'
+        ]
+    });
+
+    wx.ready(function () {
+        wx.onMenuShareTimeline({
+            title: main_title,
+            desc:  title,
+            link:  url,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+
+        wx.onMenuShareAppMessage({
+            title: main_title,
+            desc:  title,
+            link: url,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+
+        wx.onMenuShareQQ({
+            title: main_title,
+            desc:  title,
+            link:  url ,
+            imgUrl: imgurl,
+            trigger: function (res) {
+            },
+            success: function (res) {
+                getShareBack();
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
+            }
+        });
+    });
+
+    //分享回调数据
+    function getShareBack(){
+    }
+
+    var pageSize= parseInt('{{$pageSize}}');
+    var total = parseInt('{{$total}}');
+    var operation = true;
+    $(function(){
+        var page = 2;
+        if(total >= pageSize) {
+            var search = $('#search').val();
+            var city = $('#city').val();
+            $("#list").dropload({
+                domDown : {
+                    domClass   : 'dropload-down',
+                    domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+                    domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                    domNoData  : '<div class="dropload-noData">没有啦╮(╯_╰)╭</div>'
+                },
+                scrollArea : window,
+                loadDownFn : function(me){
+                    if(!operation){
+                        return false;
+                    }
+
+                    $.ajax({
+                        type: 'GET',
+                        url : "/index/index?page=" + page + '&type=load&search='+search+'&city='+city,
+                        dataType: 'html',
+                        success: function(data){
+                            if(data) {
+                                //赋值数据
+                                $("#company_list").append(data);
+                                page++;
+                            } else {
+                                operation = false;
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                                //$('.dropload-noData').hide();
+                            }
+                            // 每次数据加载完，必须重置
+                            me.resetload();
+                        },
+                        error: function(xhr, type){
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            });
+        }
+
+    });
+
+
+</script>
+</html>

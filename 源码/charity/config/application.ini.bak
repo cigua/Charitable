@@ -1,0 +1,49 @@
+[common]
+application.directory                    = APP_PATH "/application/" 
+application.library                      = APP_PATH "/application/library/"
+application.bootstrap                    = APP_PATH "/application/Bootstrap.php" 
+application.modules                      = "Index,Ajax"
+application.view.ext                     = html
+application.dispatcher.throwException    = 1
+application.dispatcher.catchException    = 1
+application.dispatcher.defaultModule     = index
+application.dispatcher.defaultController = index
+application.dispatcher.defaultAction     = index
+
+mysql.test.host      = localhost
+mysql.test.user      = root
+mysql.test.password  = root
+mysql.test.database  = 
+mysql.test.charset   = utf8
+mysql.test.port      = 3306
+
+;Smarty模版配置
+smarty.caching         = false
+smarty.cache_lifetime  = 0
+smarty.debugging       = false
+smarty.template_dir    = APP_PATH "/application/views/"
+smarty.compile_dir     = APP_PATH "/cache/smarty/"
+smarty.cache_dir       = APP_PATH "/cache/smarty/"
+smarty.left_delimiter  = "{{"
+smarty.right_delimiter = "}}"
+
+;application.image_url   = http://image.comylife.com/
+
+;产品环境
+[product:common]
+application.showErrors = 0
+application.host        = http://pms.comylife.com/
+application.api_url      = http://192.168.100.2:9894/
+application.upload_url      = upload/
+application.image_url      = http://test.com/upload/
+;开发环境
+[dev:common]
+application.showErrors = 1
+application.host        = http://pms.comylife.dev/
+application.api_url      = http://192.168.1.4:9894/
+
+;本地环境
+[loc:common]
+application.showErrors = 1
+application.host        = http://pms.comylife.loc/
+application.api_url      = http://192.168.1.190:9894/

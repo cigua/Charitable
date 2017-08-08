@@ -1,0 +1,34 @@
+{{if $data}}
+{{foreach from=$data item=vo}}
+<a href="/pay/order/?event=charity&id={{$vo.d_id}}">
+<div class="bod_center">
+    <div class="bod_header"><img src="{{$vo.m_avatar}}">
+        <h2>{{$vo.m_name}}<span>{{$vo.d_addTime}}发布</span></h2>
+    </div>
+    <div class="banner_img"><img src="{{$vo.d_img}}"></div>
+    <div class="bod_content">
+        <h2>{{$vo.d_title}}</h2>
+        <p class="brief_text">简介：{{$vo.d_content}}</p>
+        <div class="bod_like clearafter">
+            <div class="like_left">
+                <ul class="clearafter">
+                    {{if $vo.members}}
+                    {{foreach from=$vo.members item=v}}
+                    <li><img src="{{$v.m_avatar}}"></li>
+                    {{/foreach}}
+                    {{/if}}
+
+                </ul>
+            </div>
+            <div class="like_right"><span class="list_color">{{$vo.d_up}}</span>人支持</div>
+        </div>
+        <div class="like_much clearafter">
+            <div class="much_left"><span>目标</span>{{$vo.d_target}}元</div>
+            <div class="much_center"><span>已筹</span>{{$vo.d_collect}}元</div>
+            <div class="much_right"><span>剩余</span>{{$vo.leftDay}}天</div>
+        </div>
+    </div>
+</div>
+</a>
+{{/foreach}}
+{{/if}}

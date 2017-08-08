@@ -1,0 +1,73 @@
+/*
+Template Name: Cake Template
+BY: LinDeXin 2016/3/06
+Description: CleanWeb Responsive Site Template.
+Version: 1.0.0
+*/
+
+/*-------- Global CSS Reset --------*/
+body { margin:0;padding:0;}
+html,body{ margin:0; padding:0; font:normal 13px/1.5 "Oxygen", Arial, Geneva, Helvetica, sans-serif; color:#333333;}
+html, body, div, span, h1, h2, h3, h4, h5, h6, p,a, em, img, ins, kbd, q, s, samp,small, strike, strong, sub, sup, tt, var,b, u, i, center,dl, dt, dd, ol, ul, li,thead, tr, th, tdfooter, header, hgroup, menu, nav{border:0; font-family:"Oxygen", Arial, Geneva, Helvetica, sans-serif;}
+/* 内外边距通常让各个浏览器样式的表现位置不同*/body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0;}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block;}a img{border:0;}
+button{border:none;}
+img { height: auto;}
+p{ margin:0 0 8px 0;}
+ol, ul { list-style: none;}
+ol li {list-style-type: decimal;}
+li,ul li{ list-style:disc;}
+ul{margin:0;padding:0;}
+ul li{list-style: none;}
+a{ outline:0;border:0;}
+img{ border:0; vertical-align:middle;}
+
+A:link { color :#333333; text-decoration : none;}
+A:visited { color :#666666; text-decoration : none;}
+A:hover { color :#c33; text-decoration:none;}
+A:active { color :#333333; text-decoration : none;}
+.color_text { color:#fb770c; }
+.color_bg{ background:#008cbe; }
+.skin_color{color:#fb770c; font-weight:bold;}
+.hide{ display:none;}
+
+h1{ font-size:28px;line-height:1.5em;color:#333333;font-weight:700;font-family:"Oxygen", Arial, Geneva, Helvetica, sans-serif;}
+h2{ font-size:24px;line-height:1.5em;color:#333333;font-weight:700;font-family:"Oxygen", Arial, Geneva, Helvetica, sans-serif;}
+h3{ font-size:20px;line-height:1.5em;color:#333333;font-weight:700;font-family:"Oxygen", Arial, Geneva, Helvetica, sans-serif;}
+h4{ font-size:18px;line-height:1.5em;color:#333333;font-weight:700;font-family:"Oxygen", Arial, Geneva, Helvetica, sans-serif;}
+h5{ font-size:16px;line-height:1.5em;color:#333333;font-weight:700;font-family:"Oxygen", Arial, Geneva, Helvetica, sans-serif;}
+h6{ font-size:14px;line-height:1.5em;color:#333333;font-weight:700;font-family:"Oxygen", Arial, Geneva, Helvetica, sans-serif;}
+
+.pe-spacer { clear: both; display: block; margin: 0; min-height: 0 !important;  padding: 0; width: 100%;}
+.pe-spacer.size10 { height: 10px;}
+.pe-spacer.size20 { height: 20px;}
+.pe-spacer.size30 { height: 30px;}
+.pe-spacer.size40 { height: 40px;}
+.pe-spacer.size50 { height: 50px;}
+.pe-spacer.size60 { height: 60px;}
+.pe-spacer.size70 { height: 70px;}
+.pe-spacer.size100 { height: 100px;}
+.left_border{ border-left:1px solid #ededed;}
+.right_border{ border-right:1px solid #ededed;}
+.top_border{ border-top:1px solid #ededed;}
+.bottom_border{ border-bottom:1px solid #ededed;}
+/**banner*/
+.item-tobe{ position:relative;}
+.zoom_link{ position:absolute; width:100%;height:100%; z-index:1000;left:0;top:0;}
+
+/*Clear float*/
+.clearafter:after{ clear:both; content:"."; height:0px; font-size:0px; visibility:hidden; display:block;}
+.clearafter{ display:inline-block;}
+.clearafter{ display:block;}
+.clear{ clear:both;}
+.clear_float{ clear:both;line-height:0;font-size:0;}
+
+/* float */
+.floatl{float:left;}
+.floatr{float:right;}
+
+/*--------------------------------------------
+               All Design Style                
+---------------------------------------------*/
+#skin_wrapper {width:100%;margin:0 auto;position:inherit!important;z-index:1;padding:0; background:#fff;}
+.skin_width { width:100%; max-width:640px;min-width:320px;margin:0 auto;position:relative;}

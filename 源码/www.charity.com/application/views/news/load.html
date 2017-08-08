@@ -1,0 +1,14 @@
+{{if $data}}
+                {{foreach from=$data item=vo}}
+                    <li class="clearafter">
+                        <a href="/news/details/id/{{$vo.a_id}}">
+                        <img src="{{$vo.a_img}}">
+                        <div class="dynamic_right">
+                            <h3>{{$vo.a_title}}</h3>
+                            <p>{{$companyInfo.c_name}}</p>
+                            <p>{{$vo.a_addTime}}<span>{{$vo.a_view}}阅读</span></p>
+                        </div>
+                        </a>
+                    </li>
+                {{/foreach}}
+{{/if}}

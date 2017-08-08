@@ -1,0 +1,73 @@
+{{include file="common/header.html"}}
+
+<div class="main">
+    {{include file="common/menu.html"}}
+
+    <div id="right">
+        <!--面包屑导航-->
+        <ol class="breadcrumb">
+            <li><a href="/member/index">用户管理</a></li>
+            <!--<li><a href="/admin/index/">帐号管理</a></li>-->
+            <li class="active">捐赠记录列表</li>
+        </ol>
+
+        <div class="right_con">
+            <button type="button" class="btn btn-default pull-right" onclick="window.location.reload();">刷新界面</button>
+            <div class="clear10"></div>
+
+            <!-- 表格 -->
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>捐赠类型</td>
+                    <td>捐赠人名称</td>
+                    <td>善筹名称</td>
+                    <td>金额</td>
+                    <td>是否匿名</td>
+                    <td>捐赠状态</td>
+                    <td>捐赠时间</td>
+                    <td>数据来源</td>
+                    <td>编辑</td>
+                </tr>
+                {{if $data}}
+                {{foreach from=$data item=row}}
+                <tr>
+                    <td>{{if $row.c_type==1}}
+                        <span class="label label-success">捐赠箱</span>
+                        {{elseif $row.c_type==2}}
+                        <span class="label label-info">物资捐赠</span>
+                        {{elseif $row.c_type==3}}
+                        <span class="label label-danger">善筹捐赠</span>
+                        {{/if}}</td>
+                    <td>{{$row.c_name}}</td>
+                    <td>{{$row.d_title}}</td>
+                    <td>{{$row.c_price}}</td>
+                    <td>{{if $row.c_anonymous==1}}<span class="label label-success">正常</span>{{elseif $row.c_anonymous==2}}<span class="label label-important">匿名</span>{{/if}}</td>
+                    <td>{{if $row.c_status==1}}<span class="label label-success">成功</span>{{elseif $row.c_status==2}}<span class="label label-danger">失败</span>{{/if}}</td>
+                     <td>{{$row.c_addtime}}</td>
+                    <td>{{if $row.c_mid}}
+                        <span class="label label-success">正常数据</span>
+                        {{else}}
+                        <span class="label label-danger">自定义添加</span>
+                    {{/if}}
+                    </td>
+                    <td>
+                        <a class="glyphicon glyphicon-edit" href="/member/addlog/id/{{$row.c_id}}" title="编辑"></a>&nbsp;&nbsp;
+                    </td>
+                </tr>
+
+                {{/foreach}}
+                {{/if}}
+            </table>
+
+            <!-- 分页 -->
+            {{if $data}}
+            <nav>
+                <ul class="pagination pull-right">{{$page}}</ul>
+            </nav>
+            {{/if}}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+{{include file="common/footer.html"}}

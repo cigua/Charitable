@@ -1,0 +1,199 @@
+<meta charset="utf-8">
+<title>{{tran key='润达' lang=$lang}}</title>
+<meta name="description" content="{{$seoInfo.s_content}}">
+<meta name="author" content="">
+<!-- Mobile Metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Library CSS -->
+<link rel="stylesheet" href="/public/css/bootstrap.css">
+
+<link rel="stylesheet" href="/public/css/fonts/font-awesome/css/font-awesome.css">
+<link rel="stylesheet" href="/public/css/animations.css" media="screen">
+<!-- banner CSS -->
+<link rel="stylesheet" href="/public/css/superfish.css" media="screen">
+<!-- Theme CSS -->
+<link rel="stylesheet" href="/public/css/style.css">
+
+</head>
+<body class="home">
+<div class="wrap">
+    <!-- Header Start -->
+    <header id="header">
+        <!-- Header Top Bar Start -->
+        <div class="top-bar">
+            <div class="slidedown ">
+                <div class="container">
+                    <div class="phone-email pull-left wow fadeInLeft"> <a><i class="icon-phone"></i> Call Us:{{tran key='电话' lang=$lang}} 0593-3817666</a> <a href="#"><i class="icon-envelope"></i> {{tran key='传真' lang=$lang}}:0593-3817103</a> </div>
+                    <div class="skin_lan fr wow fadeInRight"> <a href="?lang=cn">中文</a> | <a href="?lang=en">English</a></div>
+                    <div class="pull-right">
+                        <form id="searchForm" method="post" action="/screen/index">
+                        <p class="search_input">
+                            <input type="text" name="content" style="float: left;width: 200px;height:34px;padding:0 5px;color:#333;" class="searchinput" placeholder="{{tran key='请输入搜索内容' lang=$lang}}">
+                            <input type="button" style="float: left;padding: 2px 12px;margin: 0px 4px 0px 0px;height: 35px;border: none;background: rgb(10, 37, 176);color: white;" value="{{tran key='搜索' lang=$lang}}" onclick="javascript:$('#searchForm').submit();">
+                        </p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Header Top Bar End -->
+        <div class="skin_menu">
+            <div class="container">
+                <div class="headlogo fl wow fadeInLeft"> <a href="/"><img src="/public/img/logos.jpg"></a>
+                    <h2>{{tran key='广东省LED名牌产品' lang=$lang}}</h2>
+                </div>
+                <div class="headcall fr wow fadeInRight"> <img src="/public/img/reXian.jpg">
+                    <div class="attention clear">
+                        <div class="attweibo"><a href="#">{{tran key='微信关注' lang=$lang}}<img src="/public/img/weiXin.jpg"></a></div>
+                        <div class="attweibo"><a href="#">{{tran key='微博' lang=$lang}}<img src="/public/img/weiBo.jpg"></a> </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Main Header Start -->
+        <div id="lower-header">
+            <div class="container">
+                <div id="menu-button">
+                    <div style="position:relative;"> <span></span> <span></span> <span></span> </div>
+                    <span>{{tran key='导航' lang=$lang}}</span>
+                    <div style="position:absolute; right:12px; top:16px;"><a style="color:white; display:inline-block; padding:4px 12px;" href="#"></a> <a style="color:white;display:inline-block; padding:4px 12px;" href="#">{{tran key='LED照明' lang=$lang}}</a></div>
+                </div>
+                <ul id="navigation" style="clear:both">
+                    <!-- Home -->
+                    <li class="home-button current-menu-item"><a href="/"><i class="icons icon-home"></i></a> </li>
+                    <!-- /Home -->
+                    <!-- Pages -->
+
+                    <li class=""> <span><strong><a href="javascript:void(0);">{{tran key='关于吉上润达' lang=$lang}}<i class="icon icon-angle-down"></i></a></strong></span>
+                        <ul>
+                            <li><a href="/about/company">{{tran key='公司简介' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/about/culture">{{tran key='企业文化' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/about/factory">{{tran key='公司概况' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/about/member">{{tran key='员工风采' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/about/honor">{{tran key='荣誉资质' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                        </ul>
+                        <div class="dropdown-button"></div>
+                    </li>
+                    <li class=""> <span><strong><a href="/screen">{{tran key='LED显示屏' lang=$lang}}<i class="icon icon-angle-down"></i></a></strong></span>
+                        <ul>
+                            {{foreach from=$screenTree item=vo}}
+                            <li><a href="/screen/?id={{$vo.cateInfo.c_id}}">{{$vo.cateInfo.title}}<i class="icon icon-angle-right"></i></a>
+                                <ul>
+                                    {{if $vo.sonList}}
+                                        {{foreach from=$vo.sonList item=voson}}
+                                            <li><a href="/screen/?id={{$voson.cateInfo.c_id}}">{{$voson.cateInfo.title}}</a></li>
+                                        {{/foreach}}
+                                    {{/if}}
+
+                                </ul>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            {{/foreach}}
+
+                        </ul>
+                        <div class="dropdown-button"></div>
+                    </li>
+                    <li class=""> <span><strong><a href="/light">{{tran key='LED照明' lang=$lang}}<i class="icon icon-angle-down"></i></a></strong></span>
+                        <ul>
+                            {{foreach from=$lightTree item=vo}}
+                            <li><a href="/light?id={{$vo.cateInfo.c_id}}">{{$vo.cateInfo.title}}<i class="icon icon-angle-right"></i></a>
+                                <ul>
+                                    {{if $vo.sonList}}
+                                    {{foreach from=$vo.sonList item=voson}}
+                                    <li><a href="/light?id={{$voson.cateInfo.c_id}}">{{$voson.cateInfo.title}}</a></li>
+                                    {{/foreach}}
+                                    {{/if}}
+
+                                </ul>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            {{/foreach}}
+                        </ul>
+                        <div class="dropdown-button"></div>
+                    </li>
+                    <li class=""> <span><strong><a href="/case">{{tran key='项目案例' lang=$lang}}<i class="icon icon-angle-down"></i></a></strong></span>
+                        <ul>
+                            {{foreach from=$caseTree item=vo}}
+                            <li><a href="/case?id={{$vo.cateInfo.c_id}}">{{$vo.cateInfo.title}}<i class="icon icon-angle-right"></i></a>
+                                <ul>
+                                    {{if $vo.sonList}}
+                                    {{foreach from=$vo.sonList item=voson}}
+                                    <li><a href="/case?id={{$voson.cateInfo.c_id}}">{{$voson.cateInfo.title}}</a></li>
+                                    {{/foreach}}
+                                    {{/if}}
+
+                                </ul>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            {{/foreach}}
+                        </ul>
+                        <div class="dropdown-button"></div>
+                    </li>
+                    <li class=""> <span><strong><a href="/news">{{tran key='新闻中心' lang=$lang}}<i class="icon icon-angle-down"></i></a></strong></span>
+                        <ul>
+                            {{foreach from=$newTree item=vo}}
+                            <li><a href="/news?id={{$vo.cateInfo.c_id}}">{{$vo.cateInfo.title}}<i class="icon icon-angle-right"></i></a>
+                                <ul>
+                                    {{if $vo.sonList}}
+                                    {{foreach from=$vo.sonList item=voson}}
+                                    <li><a href="/news?id={{$voson.cateInfo.c_id}}">{{$voson.cateInfo.title}}</a></li>
+                                    {{/foreach}}
+                                    {{/if}}
+
+                                </ul>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            {{/foreach}}
+                        </ul>
+                        <div class="dropdown-button"></div>
+                    </li>
+                    <li class=""> <span><strong><a href="javascript:void(0);">{{tran key='技术与服务' lang=$lang}}<i class="icon icon-angle-down"></i></a></strong></span>
+                        <ul>
+                            <li><a href="/article/service">{{tran key='售后服务简介' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/article/idea">{{tran key='服务理念' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/article/question">{{tran key='常见问题' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/article/quality">{{tran key='品质管理' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/article/know">{{tran key='产品知识' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/article/download">{{tran key='下载中心' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                        </ul>
+                        <div class="dropdown-button"></div>
+                    </li>
+                    <li class=""> <span><strong><a href="javascript:void(0);">{{tran key='联系我们' lang=$lang}}<i class="icon icon-angle-down"></i></a></strong></span>
+                        <ul>
+                            <li><a href="/contract/index">{{tran key='联系方式' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                            <li><a href="/contract/online">{{tran key='在线留言' lang=$lang}}<i class="icon icon-angle-right"></i></a>
+                                <div class="dropdown-button"></div>
+                            </li>
+                        </ul>
+                        <div class="dropdown-button"></div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Header End -->
+    </header>

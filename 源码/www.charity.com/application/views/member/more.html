@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>捐赠记录列表</title>
+    <link type="text/css" rel="stylesheet" href="/public/css/skin.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="/public/js/dropload/dropload.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/f-awesome/font-awesome.min.css" />
+    <script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+    <script type="text/javascript" src="/public/js/dropload/dropload.min.js"></script>
+</head>
+<body>
+<div class="find_nav">
+    <div class="header">
+        <input type="hidden" name="t" id="t" value="{{$t}}">
+        <div class="return"><a href="/"><img src="/public/images/skin/return.png"></a></div>
+        <div class="title">捐赠记录列表</div>
+        <div class="user">共<span class="list_color">{{$count}}</span>次</div>
+    </div>
+</div>
+<div class="ce-wrapper">
+    <div class="history_content" id="list">
+        <ul class="clearafter" id="more_list">
+            {{if $data}}
+            {{foreach from=$data item=vo}}
+            <li><span class="list_color">{{$vo.c_name}}</span>捐赠<span class="list_color">￥{{$vo.c_price}}</span>感谢！
+                <div class="list_jz list_gray">{{$vo.c_addtime}}</div>
+            </li>
+            {{/foreach}}
+            {{/if}}
+        </ul></div>
+</div>
+</body>
+<script>
+    var pageSize= parseInt('{{$pageSize}}');
+    var total = parseInt('{{$total}}');
+
+    $(function(){
+        var page = 2;
+        if(total >= pageSize) {
+            var t = $('#t').val();
+            $("#list").dropload({
+                domDown : {
+                    domClass   : 'dropload-down',
+                    domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+                    domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                    domNoData  : '<div class="dropload-noData">没有啦╮(╯_╰)╭</div>'
+                },
+                scrollArea : window,
+                loadDownFn : function(me){
+                    $.ajax({
+                        type: 'GET',
+                        url : "/member/more?page=" + page + '&type=load&t='+t,
+                        dataType: 'html',
+                        success: function(data){
+                            if(data) {
+                                //赋值数据
+                                $("#more_list").append(data);
+                                page++;
+                            } else {
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                                //$('.dropload-noData').hide();
+                            }
+                            // 每次数据加载完，必须重置
+                            me.resetload();
+                        },
+                        error: function(xhr, type){
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            });
+        }
+
+    });
+
+</script>
+</html>

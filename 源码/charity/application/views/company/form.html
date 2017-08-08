@@ -1,0 +1,427 @@
+{{include file="common/header.html"}}
+<link href="/public/js/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<style>
+    #right .nav-tabs { margin-bottom:0;}
+    #right .tab-content { border:1px solid #ddd; border-top:none; padding:20px 20px 0;}
+    .news{display:none;}
+    .img_left { position: relative; float: left; margin-right: 10px;}
+    .img_left .order { margin-top: 5px; line-height: 30px;}
+    .img_left .order span { margin-right: 5px;}
+    .img_left a { position: absolute; top: 14px; right: 2px; display: block; width: 20px; height: 20px; background: #fff; color: #fff; text-align: center; line-height: 20px; font-size: 12px;  border-radius: 999px; opacity: .8;}
+
+    .news{display:none;}
+    .img_left { position: relative; float: left; margin-right: 10px;}
+    .img_left .order { margin-top: 5px; line-height: 30px;}
+    .img_left .order span { margin-right: 5px;}
+    .img_left a { position: absolute; top: 14px; right: 2px; display: block; width: 20px; height: 20px; background: #fff; color: #fff; text-align: center; line-height: 20px; font-size: 12px;  border-radius: 999px; opacity: .8;}
+    #productProfile .controls { margin-top: 20px; margin-bottom: 10px; padding-bottom: 30px; border-bottom: 1px solid #E8E8E8; overflow: auto;}
+    .ppinfo_col { float: left; margin-right: 20px; margin-bottom: 10px;}
+    .ppinfo_col span { display: block; float: left; height: 30px; line-height: 30px;}
+    .ppinfo_col input { margin-left:4px;}
+    .icon-remove-sign{background-position:-48px -96px}.
+</style>
+<div class="main">
+    {{include file="common/menu.html"}}
+
+    <div id="right">
+        <!--面包屑导航-->
+        <ol class="breadcrumb">
+            <li><a href="/company/index">机构管理 </a></li>
+            <li class="active">{{if !$id}}修改机构{{else}}添加机构{{/if}}</li>
+        </ol>
+
+        <div class="right_con">
+
+            <form class="form-horizontal" id="form-save" action="/ajax/company/save/">
+
+                <!--<input type="hidden" value="{{$smarty.get.uid}}" name="uid" />-->
+                <div  class="tabbable" style="margin-top:30px;">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="basic_right">
+                            <input type="hidden" name="id" value="{{$row.c_id}}" />
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构名称</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="c_name" class="form-control" value="{{$row.c_name}}" placeholder="机构名称" datatype="*" nullmsg="机构名称" />
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            {{if !$row.c_id}}
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">登录密码</label>
+                                <div class="col-sm-6">
+                                    <input type="password" name="c_password" class="form-control" value="" placeholder="登录密码" datatype="*6-18" nullmsg="请填写6-18位登录密码" />
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            {{/if}}
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构简介</label>
+                                <div class="col-sm-6">
+                                    <textarea name="c_des" class="form-control" id="c_des" style="width:270px;">{{$row.c_des}}</textarea>
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构创建时间</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="c_createTime" id="c_createTime" class="form-control" value="{{$row.c_createTime}}" placeholder="机构创建时间" datatype="*" nullmsg="机构创建时间" />
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构地址</label>
+                                <div class="col-sm-6" id="city">
+                                    <select class="prov" name="prov" datatype="*" nullmsg="省" class="form-control"></select>
+                                    <select class="city" name="city" disabled="disabled" datatype="*" nullmsg="市" class="form-control"></select>
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构详细地址</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="c_addr" class="form-control" value="{{$row.c_addr}}" placeholder="机构详细地址" datatype="*" nullmsg="机构详细地址" />
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">登记人姓名</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="c_username" class="form-control" value="{{$row.c_username}}" placeholder="登记人姓名" datatype="*" nullmsg="登记人姓名" />
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">登记人电话</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="c_userphone" class="form-control" value="{{$row.c_userphone}}" placeholder="登记人电话" datatype="*" nullmsg="登记人电话" />
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">登记人身份证</label>
+                                <div class="col-sm-6">
+                                    <input type="text" name="c_userID" class="form-control" value="{{$row.c_userID}}" placeholder="登记人身份证" datatype="*" nullmsg="登记人身份证" />
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构logo</label>
+                                <div class="col-sm-4">
+                                    <input type="file" name="upload_avatar" id="upload_avatar" onchange="return ajaxFileUpload3();" />
+                                    {{if $row.c_avatar}}
+                                    <div style="padding-top:10px;"><img src="{{$row.c_avatar}}" id="upload-img_avatar"   style="max-width:200px;"/></div>
+                                    <input type="hidden" name="c_avatar" id="file_avatar"  value="{{$row.c_avatar}}" datatype="*" nullmsg="请上传logo"/>
+                                    {{else}}
+                                    <input type="hidden" name="c_avatar" id="file_avatar" datatype="*" nullmsg="请上传logo" />
+                                    <div style="padding-top:10px;"><img src="" id="upload-img_avatar" style="max-width:200px; display:none"/></div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开户许可证</label>
+                                <div class="col-sm-4">
+                                    <input type="file" name="upload_open" id="upload_open" onchange="return ajaxFileUpload();" />
+                                    {{if $row.c_open_img}}
+                                    <div style="padding-top:10px;"><img src="{{$row.c_open_img}}" id="upload-img_open" style="max-width:200px;"/></div>
+                                    <input type="hidden" name="c_open_img" id="file_open"  value="{{$row.c_open_img}}" datatype="*" nullmsg="请上传开户许可证"/>
+                                    {{else}}
+                                    <input type="hidden" name="c_open_img" id="file_open" datatype="*" nullmsg="请上传开户许可证" />
+                                    <div style="padding-top:10px;"><img src="" id="upload-img_open" style="max-width:200px; display:none"/></div>
+                                    {{/if}}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构组织代码证</label>
+                                <div class="col-sm-4">
+                                    <input type="file" name="upload" id="upload" onchange="return ajaxFileUpload2();" />
+                                    {{if $row.c_company_img}}
+                                    <div style="padding-top:10px;"><img src="{{$row.c_company_img}}" id="upload-img" style="max-width:200px;"/></div>
+                                    <input type="hidden" name="c_company_img" id="file"  value="{{$row.c_company_img}}" datatype="*" nullmsg="请上传机构组织代码证"/>
+                                    {{else}}
+                                    <input type="hidden" name="c_company_img" id="file" datatype="*" nullmsg="请上传机构组织代码证" />
+                                    <div style="padding-top:10px;"><img src="" id="upload-img" style="max-width:200px; display:none"/></div>
+                                    {{/if}}
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">审批状态</label>
+                                <div class="col-sm-6">
+                                    <select name="c_check_status" id="c_check_status" style="width:270px;" datatype="*" nullmsg="请选择审批状态">
+                                        {{$checkOption}}
+                                    </select>
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构状态</label>
+                                <div class="col-sm-6">
+                                    <select name="c_status" id="c_status" style="width:270px;" datatype="*" nullmsg="请选择机构状态">
+                                        {{$statusOption}}
+                                    </select>
+                                </div>
+                                <label style="color:red;">*</label>
+                                <span class="help-inline"></span>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">机构图片</label>
+                                <div class="col-sm-4">
+                                    <input id="upload_Company" type="file" onchange="return ajaxFileUpload4();" name="upload_Company">
+                                    <input id="uploadCompany" type="hidden" value="{{$count|default:0}}" name="uploadCompany">
+                                    <div class="customfile-wrap">
+                                        <div id="imagesList">
+                                            {{if $imglist}}
+                                            {{foreach from=$imglist key=key item=vo}}
+                                            <div id="picRow_{{$key}}" class="img_left">
+                                                <a href="javascript:void(0);" rel="{{$key}}" class="removeImg"><i class="glyphicon glyphicon-remove" rel="{{$key}}">x</i></a>
+                                                <div style="padding-top:10px;"><img src="{{$vo.ci_img}}" style="max-width:200px;"/></div>
+
+                                                <input type="hidden" name="file[]" value="{{$vo.ci_img}}" />
+
+                                            </div>
+                                            {{/foreach}}
+
+                                            {{/if}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <button class="btn btn-primary" type="submit">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+<script src="/public/js/umeditor/umeditor.config.js"></script>
+<script src="/public/js/umeditor/umeditor.js"></script>
+<script src="/public/js/umeditor/lang/zh-cn/zh-cn.js"></script>
+<script src="/public/js/jquery.ajaxfileupload.js"></script>
+<script src="/public/js/bootstrap-customfile.js"></script>
+<script src="/public/js/bootstrap-datetimepicker.js"></script>
+<script src="/public/js/jquery.cityselect.js"></script>
+<script>
+    var editor =  '';
+    var count  =  '{{$count}}';
+    var url = '{{$url}}';
+    $(function(){
+        /*初始化上传文件*/
+        $("#upload").customFileInput();
+        $("#upload_open").customFileInput();
+        $("#upload_avatar").customFileInput();
+        $("#upload_Company").customFileInput();
+        $("#c_createTime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: 1,
+            pickerPosition: "bottom-left"
+        });
+
+        $("#city").citySelect({prov:'{{$row.c_prov}}', city : '{{$row.c_city}}'});
+    });
+
+    $("#form-save").Validform({
+        ajaxPost: true,
+        tipSweep: true,
+        tiptype:function(msg,o,cssctl){
+            if(o.type == 3)
+                $.dialog.tips(msg);
+        },
+        beforeSubmit:function(curform){
+        },
+        callback:function(response){
+            $.dialog.tips(response.info);
+            if ( response.status == 'y' ) {
+                window.setTimeout(function(){
+                    if(url){
+                        location.href = url;
+                    }else{
+                        location.reload();
+                    }
+
+                }, 2000)
+            }
+        }
+    });
+
+
+    var processing = false;
+    function ajaxFileUpload2() {
+        if ( processing == true ) {
+            return false;
+        }
+
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/company/upload2/',
+            secureuri:false,
+            fileElementId:'upload',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+                    $("#upload-img").attr('src', data.info.http).show();
+                    $('#file').val(data.info.http);
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+
+    function ajaxFileUpload() {
+        if ( processing == true ) {
+            return false;
+        }
+
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/company/upload/',
+            secureuri:false,
+            fileElementId:'upload_open',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+                    $("#upload-img_open").attr('src', data.info.http).show();
+                    $('#file_open').val(data.info.http);
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+
+    function ajaxFileUpload3() {
+        if ( processing == true ) {
+            return false;
+        }
+
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/company/uploadAvatar/',
+            secureuri:false,
+            fileElementId:'upload_avatar',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+                    $("#upload-img_avatar").attr('src', data.info.http).show();
+                    $('#file_avatar').val(data.info.http);
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+    function ajaxFileUpload4() {
+        if ( processing == true ) {
+            return false;
+        }
+
+
+        var count = parseInt($('#uploadCompany').val());
+        var rel = count + 1;
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/company/uploadCompany/',
+            secureuri:false,
+            fileElementId:'upload_Company',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+//                    $("#upload-img").attr('src', data.info.http).show();
+//                    $('#file').val(data.info.file);
+
+                    var html = '';
+                    html += '<div id="picRow_'+count+'" class="img_left">';
+                    html += '<a href="javascript:void(0);" rel="'+count+'" class="removeImg"><i class="glyphicon glyphicon-remove" rel="'+count+'">x</i></a>';
+                    html += '<div style="padding-top:10px;"><img src="'+ data.info.http +'" style="max-width:200px;"/></div>';
+                    html += '<div class="order">';
+                    html += '<input type="hidden" name="file[]" value="'+data.info.http+'" />';
+                    html += '</div>';
+                    html += '</div>';
+                    $('#imagesList').append(html);
+                    return;
+
+
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+    $(document).on("click",".removeImg",function(){
+        var rel = $(this).attr('rel');
+        $('#picRow_' + rel).remove();
+    });
+
+
+
+</script>
+{{include file="common/footer.html"}}

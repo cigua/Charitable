@@ -1,0 +1,7 @@
+{{if $data}}
+{{foreach from=$data item=vo}}
+<li><span class="list_color">{{$vo.c_name}}</span>捐赠<span class="list_color">￥{{$vo.c_price}}</span>感谢！
+    <div class="list_jz list_gray">{{$vo.c_addtime}}</div>
+</li>
+{{/foreach}}
+{{/if}}

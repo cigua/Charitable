@@ -1,0 +1,507 @@
+{{include file="common/header.html"}}
+<link href="/public/js/umeditor/themes/default/css/umeditor.css" type="text/css" rel="stylesheet">
+<style>
+    #right .nav-tabs { margin-bottom:0;}
+    #right .tab-content { border:1px solid #ddd; border-top:none; padding:20px 20px 0;}
+    .news{display:none;}
+    .img_left { position: relative; float: left; margin-right: 10px;}
+    .img_left .order { margin-top: 5px; line-height: 30px;}
+    .img_left .order span { margin-right: 5px;}
+    .img_left a { position: absolute; top: 14px; right: 2px; display: block; width: 20px; height: 20px; background: #fff; color: #fff; text-align: center; line-height: 20px; font-size: 12px;  border-radius: 999px; opacity: .8;}
+
+    .news{display:none;}
+    .img_left { position: relative; float: left; margin-right: 10px;}
+    .img_left .order { margin-top: 5px; line-height: 30px;}
+    .img_left .order span { margin-right: 5px;}
+    .img_left a { position: absolute; top: 14px; right: 2px; display: block; width: 20px; height: 20px; background: #fff; color: #fff; text-align: center; line-height: 20px; font-size: 12px;  border-radius: 999px; opacity: .8;}
+    #productProfile .controls { margin-top: 20px; margin-bottom: 10px; padding-bottom: 30px; border-bottom: 1px solid #E8E8E8; overflow: auto;}
+    .ppinfo_col { float: left; margin-right: 20px; margin-bottom: 10px;}
+    .ppinfo_col span { display: block; float: left; height: 30px; line-height: 30px;}
+    .ppinfo_col input { margin-left:4px;}
+    .icon-remove-sign{background-position:-48px -96px}.
+</style>
+<div class="main">
+    {{include file="common/menu.html"}}
+
+    <div id="right">
+        <!--面包屑导航-->
+        <ol class="breadcrumb">
+            <li><a href="/donation/index">慈善产品管理 </a></li>
+            <li class="active">慈善产品</li>
+        </ol>
+
+        <div class="right_con">
+
+            <form class="form-horizontal" id="form-save" action="/donation/save/">
+
+                <!--<input type="hidden" value="{{$smarty.get.uid}}" name="uid" />-->
+                <div  class="tabbable" style="margin-top:30px;">
+                    <ul class="nav nav-tabs" style=' background:#f0f0f0;'>
+                        {{foreach from=$menuList key=key item=vo name=top}}
+                        <li {{if $smarty.foreach.top.first}}class="active"{{/if}}><a target="rightTop" tag="{{$key}}_right" href="#{{$key}}_right" data-toggle="tab">{{$vo}}</a></li>
+                        {{/foreach}}
+                    </ul>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="basic_right">
+                            <input type="hidden" name="id" value="{{$row.d_id}}" />
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">所在机构</label>
+                                <div class="col-sm-4">
+                                    <select datatype="*"  nullmsg="请选择所在机构" id="c_id" name="c_id" class="form-control">
+                                        {{$companyOption}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">商品标题</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="d_title" value="{{$row.d_title}}" placeholder="商品标题" datatype="*" nullmsg="请填写商品标题" style="width: 500px;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">商品详情</label>
+                                <div class="col-sm-4">
+                                    <textarea name="d_content" datatype="*" nullmsg="请填写商品详情" id="d_content" style="width:800px; height:250px;" >{{$row.d_content}}</textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">封面图片</label>
+                                <div class="col-sm-4">
+                                    <input type="file" name="upload" id="upload" onchange="return ajaxFileUpload2();" />
+                                    {{if $row.d_img}}
+                                    <div style="padding-top:10px;"><img src="{{$row.d_img}}" id="upload-img" style="max-width:200px;"/></div>
+                                    <input type="hidden" name="d_img" id="file"  value="{{$row.d_img}}" datatype="*" nullmsg="请上传封面图片"/>
+                                    {{else}}
+                                    <input type="hidden" name="d_img" id="file" datatype="*" nullmsg="请上传封面图片" />
+                                    <div style="padding-top:10px;"><img src="" id="upload-img" style="max-width:200px; display:none"/></div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">组织机构证明</label>
+                                <div class="col-sm-4">
+                                    <input type="file" name="upload_company" id="upload_company" onchange="return ajaxFileUpload();" />
+                                    {{if $row.d_company_img}}
+                                    <div style="padding-top:10px;"><img src="{{$row.d_company_img}}" id="upload-img_company" style="max-width:200px;"/></div>
+                                    <input type="hidden" name="d_company_img" id="file_company"  value="{{$row.d_img}}" datatype="*" nullmsg="请上传组织机构证明"/>
+                                    {{else}}
+                                    <input type="hidden" name="d_company_img" id="file_company" datatype="*" nullmsg="请上传组织机构证明" />
+                                    <div style="padding-top:10px;"><img src="" id="upload-img_company" style="max-width:200px; display:none"/></div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">善筹图片</label>
+                                <div class="col-sm-4">
+                                    <input id="upload_Donation" type="file" onchange="return ajaxFileUpload4();" name="upload_Donation">
+                                    <input id="uploadDonation" type="hidden" value="{{$count|default:0}}" name="uploadDonation">
+                                    <div class="customfile-wrap">
+                                        <div id="imagesList">
+                                            {{if $imglist}}
+                                            {{foreach from=$imglist key=key item=vo}}
+                                            <div id="picRow_{{$key}}" class="img_left">
+                                                <a href="javascript:void(0);" rel="{{$key}}" class="removeImg"><i class="glyphicon glyphicon-remove" rel="{{$key}}">x</i></a>
+                                                <div style="padding-top:10px;"><img src="{{$vo.di_img}}" style="max-width:200px;"/></div>
+                                                <input type="hidden" name="file[]" value="{{$vo.di_img}}" />
+                                            </div>
+                                            {{/foreach}}
+
+                                            {{/if}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">目标金额</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="d_target" value="{{$row.d_target}}" placeholder="目标金额" datatype="*" nullmsg="请填写目标金额" style="width: 500px;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">截止时间</label>
+                                <div class="col-sm-4">
+                                    <input type="text" name="d_endTime" id="d_endTime" class="form-control" value="{{$row.d_endTime}}" placeholder="截止时间" datatype="*" nullmsg="截止时间" style="width:250px;" />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">状态</label>
+                                <div class="col-sm-4">
+                                    <select name="d_status" datatype="*" nullmsg="请选择慈善状态" class="form-control">
+                                        {{$statusOption}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="personal_right">
+                            <input type="hidden" name="p_id" id="p_id" value="{{$personInfo.p_id}}">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">真实姓名</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="p_realname" value="{{$personInfo.p_realname}}" placeholder="真实姓名" datatype="*" nullmsg="请填写真实姓名" style="width: 500px;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">身份证</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="p_idCard" value="{{$personInfo.p_idCard}}" placeholder="身份证" datatype="*" nullmsg="请填写身份证" style="width: 500px;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">联系电话</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="p_phone" value="{{$personInfo.p_phone}}" placeholder="联系电话" datatype="*" nullmsg="请填写联系电话" style="width: 500px;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">证件照</label>
+                                <div class="col-sm-4">
+                                    <input type="file" name="upload_personal" id="upload_personal" onchange="return ajaxFileUpload3();" />
+                                    {{if $personInfo.p_img}}
+                                    <div style="padding-top:10px;"><img src="{{$personInfo.p_img}}" id="upload-img_personal" style="max-width:200px;"/></div>
+                                    <input type="hidden" name="p_img" id="file_personal"  value="{{$personInfo.p_img}}" datatype="*" nullmsg="请上传证件照"/>
+                                    {{else}}
+                                    <input type="hidden" name="p_img" id="file_personal" datatype="*" nullmsg="请上传证件照" />
+                                    <div style="padding-top:10px;"><img src="" id="upload-img_personal" style="max-width:200px; display:none"/></div>
+                                    {{/if}}
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">资金用途照片</label>
+                                <div class="col-sm-4">
+                                    <input id="upload_PersonalUsed" type="file" onchange="return ajaxFileUpload5();" name="upload_PersonalUsed">
+                                    <input id="uploadPersonal" type="hidden" value="{{$moneycount|default:0}}" name="uploadPersonal">
+                                    <div class="customfile-wrap">
+                                        <div id="imagesList_Personal">
+                                            {{if $moneyList}}
+                                            {{foreach from=$moneyList key=key item=vo}}
+                                            <div id="picPersonalRow_{{$key}}" class="img_left">
+                                                <a href="javascript:void(0);" rel="{{$key}}" class="removePersonalImg"><i class="glyphicon glyphicon-remove" rel="{{$key}}">x</i></a>
+                                                <div style="padding-top:10px;"><img src="{{$vo.mu_img}}" style="max-width:200px;"/></div>
+
+                                                <input type="hidden" name="file_money[]" value="{{$vo.mu_img}}" />
+
+                                            </div>
+                                            {{/foreach}}
+
+                                            {{/if}}
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">个人信息状态</label>
+                                <div class="col-sm-4">
+                                    <select name="p_status" datatype="*" nullmsg="请选择个人信息状态" class="form-control">
+                                        {{$statusOption}}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane" id="bank_right">
+                            <div class="form-group">
+                                <input type="hidden" name="b_id" id="b_id" value="{{$bankInfo.b_id}}">
+                                <label class="col-sm-2 control-label">银行类型</label>
+                                <div class="col-sm-4">
+                                    <select name="b_type" datatype="*" nullmsg="请选择银行类型" class="form-control">
+                                        {{$bankOption}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开户姓名</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="b_name" value="{{$bankInfo.b_name}}" placeholder="开户姓名" datatype="*" nullmsg="请填写开户姓名" style="width: 500px;"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">银行卡号</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="b_number" value="{{$bankInfo.b_number}}" placeholder="银行卡号" datatype="*" nullmsg="请填写银行卡号" style="width: 500px;"/>
+                                 </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">开户银行</label>
+                                <div class="col-sm-4">
+                                    <input type="text" class="form-control" name="b_bankName" value="{{$bankInfo.b_bankName}}" placeholder="开户银行" datatype="*" nullmsg="请填写开户银行" style="width: 500px;"/>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <button class="btn btn-primary" type="submit">保存</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+<script src="/public/js/umeditor/umeditor.config.js"></script>
+<script src="/public/js/umeditor/umeditor.js"></script>
+<script src="/public/js/umeditor/lang/zh-cn/zh-cn.js"></script>
+<script src="/public/js/jquery.ajaxfileupload.js"></script>
+<script src="/public/js/bootstrap-customfile.js"></script>
+<script src="/public/js/bootstrap-datetimepicker.js"></script>
+<script>
+    var editor =  '';
+    var count  =  '{{$count}}';
+    var url = '{{$url}}';
+    $(function(){
+        editor = UM.getEditor('d_content');
+        $("#d_endTime").datetimepicker({
+            format: "yyyy-mm-dd hh:ii",
+            autoclose: 1,
+            pickerPosition: "bottom-left"
+        });
+    });
+
+    $("#form-save").Validform({
+        ajaxPost: true,
+        tipSweep: true,
+        tiptype:function(msg,o,cssctl){
+            if(o.type == 3)
+                $.dialog.tips(msg);
+        },
+        beforeSubmit:function(curform){
+        },
+        callback:function(response){
+            $.dialog.tips(response.info);
+            if ( response.status == 'y' ) {
+                window.setTimeout(function(){
+                    if(url){
+                        location.href = url;
+                    }else{
+                        location.reload();
+                    }
+
+                }, 2000)
+            }
+        }
+    });
+
+
+    /*初始化上传文件*/
+    $("#upload").customFileInput();
+    $("#upload_company").customFileInput();
+    $("#upload_personal").customFileInput();
+    $("#upload_Donation").customFileInput();
+    $("#upload_PersonalUsed").customFileInput();
+    var processing = false;
+    function ajaxFileUpload2() {
+        if ( processing == true ) {
+            return false;
+        }
+
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/donation/upload/',
+            secureuri:false,
+            fileElementId:'upload',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+                    $("#upload-img").attr('src', data.info.http).show();
+                    $('#file').val(data.info.http);
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+
+    function ajaxFileUpload() {
+        if ( processing == true ) {
+            return false;
+        }
+
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/donation/uploadImg/',
+            secureuri:false,
+            fileElementId:'upload_company',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+                    $("#upload-img_company").attr('src', data.info.http).show();
+                    $('#file_company').val(data.info.http);
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+
+    function ajaxFileUpload3() {
+        if ( processing == true ) {
+            return false;
+        }
+
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/donation/uploadPersonal/',
+            secureuri:false,
+            fileElementId:'upload_personal',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+                    $("#upload-img_personal").attr('src', data.info.http).show();
+                    $('#file_personal').val(data.info.http);
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+
+
+    function ajaxFileUpload4() {
+        if ( processing == true ) {
+            return false;
+        }
+
+
+        var count = parseInt($('#uploadDonation').val());
+        var rel = count + 1;
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/donation/uploadDonation/',
+            secureuri:false,
+            fileElementId:'upload_Donation',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+//                    $("#upload-img").attr('src', data.info.http).show();
+//                    $('#file').val(data.info.file);
+
+                    var html = '';
+                    html += '<div id="picRow_'+count+'" class="img_left">';
+                    html += '<a href="javascript:void(0);" rel="'+count+'" class="removeImg"><i class="glyphicon glyphicon-remove" rel="'+count+'">x</i></a>';
+                    html += '<div style="padding-top:10px;"><img src="'+ data.info.http +'" style="max-width:200px;"/></div>';
+                    html += '<div class="order">';
+                    html += '<input type="hidden" name="file[]" value="'+data.info.http+'" />';
+                    html += '</div>';
+                    html += '</div>';
+                    $('#imagesList').append(html);
+                    return;
+
+
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+    $(document).on("click",".removeImg",function(){
+        var rel = $(this).attr('rel');
+        $('#picRow_' + rel).remove();
+    });
+
+
+
+    function ajaxFileUpload5() {
+        if ( processing == true ) {
+            return false;
+        }
+
+
+        var count = parseInt($('#uploadPersonal').val());
+        var rel = count + 1;
+        var dialog = $.dialog.loading('上传中，请稍等！').show();
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/donation/uploadPersonalUsed/',
+            secureuri:false,
+            fileElementId:'upload_PersonalUsed',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+                dialog.close();
+
+                if ( data.status == 'y' ) {
+//                    $("#upload-img").attr('src', data.info.http).show();
+//                    $('#file').val(data.info.file);
+
+                    var html = '';
+                    html += '<div id="picPersonalRow_'+count+'" class="img_left">';
+                    html += '<a href="javascript:void(0);" rel="'+count+'" class="removePersonalImg"><i class="glyphicon glyphicon-remove" rel="'+count+'">x</i></a>';
+                    html += '<div style="padding-top:10px;"><img src="'+ data.info.http +'" style="max-width:200px;"/></div>';
+                    html += '<div class="order">';
+                    html += '<input type="hidden" name="file_money[]" value="'+data.info.http+'" />';
+                    html += '</div>';
+                    html += '</div>';
+                    $('#imagesList_Personal').append(html);
+                    return;
+
+
+                    return;
+                }
+
+                $.dialog.error(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                $.dialog.error(e);
+            }
+        });
+    }
+    $(document).on("click",".removePersonalImg",function(){
+        var rel = $(this).attr('rel');
+        $('#picPersonalRow_' + rel).remove();
+    });
+</script>
+{{include file="common/footer.html"}}

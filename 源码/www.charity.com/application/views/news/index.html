@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<meta name="author" content="" />
+<meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+<title>本市慈善</title>
+<link type="text/css" rel="stylesheet" href="/public/css/skin.css" />
+<link type="text/css" rel="stylesheet" href="/public/css/style.css" />
+    <link type="text/css" rel="stylesheet" href="/public/js/dropload/dropload.css" />
+<link type="text/css" rel="stylesheet" href="/public/css/f-awesome/font-awesome.min.css" />
+    <script type="text/javascript" src="/public/js/dropload/dropload.min.js"></script>
+</head>
+<body>
+<div class="bodies_header clearafter">
+    <a href="/pay/order/?event=company&id={{$companyInfo.c_id}}" class="bodies_left">机构首页</a>
+    <a href="/donation/index?id={{$companyInfo.c_id}}" class="bodies_center">本市慈善</a>
+    <a href="/news/index?id={{$companyInfo.c_id}}" class="bodies_right on">机构动态</a>
+</div>
+<div class="bod_wrapper">
+    <div class="dynamic_content" id="list">
+        <input type="hidden" name="id" id="id" value="{{$id}}">
+        <ul class="clearafter" id="news_list">
+            {{if $data}}
+                {{foreach from=$data item=vo}}
+                    <li class="clearafter">
+                        <a href="/news/details/id/{{$vo.a_id}}">
+                        <img src="{{$vo.a_img}}">
+                        <div class="dynamic_right">
+                            <h3>{{$vo.a_title}}</h3>
+                            <p>{{$companyInfo.c_name}}</p>
+                            <p>{{$vo.a_addTime}}<span>{{$vo.a_view}}阅读</span></p>
+                        </div>
+                        </a>
+                    </li>
+                {{/foreach}}
+					{{else}}
+				<li><h2 style="text-align:center;">暂无发布</h2></li>
+            {{/if}}
+
+        </ul>
+    </div>
+</div>
+  <div class="pe-spacer size60"></div>
+    {{include file="common/footer.html"}}
+</div>
+
+</body>
+<script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+<script type="text/javascript" src="/public/js/jquery.flexslider-min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#home_slider').flexslider({
+            animation : 'slide',
+            controlNav : true,
+            directionNav : true,
+            animationLoop : true,
+            slideshow : false,
+            useCSS : false
+        });
+									
+    });
+
+    var pageSize= parseInt('{{$pageSize}}');
+    var total = parseInt('{{$total}}');
+
+    $(function(){
+        var page = 2;
+        if(total >= pageSize) {
+            var id = $('#id').val();
+            $("#list").dropload({
+                domDown : {
+                    domClass   : 'dropload-down',
+                    domRefresh : '<div class="dropload-refresh">↑上拉加载更多</div>',
+                    domLoad    : '<div class="dropload-load"><span class="loading"></span>加载中...</div>',
+                    domNoData  : '<div class="dropload-noData">没有啦╮(╯_╰)╭</div>'
+                },
+                scrollArea : window,
+                loadDownFn : function(me){
+                    $.ajax({
+                        type: 'GET',
+                        url : "/news/index?page=" + page + '&type=load&id='+id,
+                        dataType: 'html',
+                        success: function(data){
+                            if(data) {
+                                //赋值数据
+                                $("#news_list").append(data);
+                                page++;
+                            } else {
+                                // 锁定
+                                me.lock();
+                                // 无数据
+                                me.noData();
+                                //$('.dropload-noData').hide();
+                            }
+                            // 每次数据加载完，必须重置
+                            me.resetload();
+                        },
+                        error: function(xhr, type){
+                            // 即使加载出错，也得重置
+                            me.resetload();
+                        }
+                    });
+                }
+            });
+        }
+
+    });
+</script>
+</html>

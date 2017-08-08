@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>机构申请</title>
+    <link type="text/css" rel="stylesheet" href="/public/css/skin.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/style.css" />
+    <link rel="stylesheet" href="/public/css/bootstrap-customfile.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/f-awesome/font-awesome.min.css" />
+    <script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+    <script src="/public/js/jquery.ajaxfileupload.js"></script>
+    <script src="/public/js/bootstrap-customfile.js"></script>
+</head>
+<body>
+<div class="find_nav">
+    <div class="header">
+        <div class="return"><a href="/company/register"><img src="/public/images/skin/return.png"></a></div>
+        <div class="title">证明材料</div>
+        <a href="javascript:void(0);" class="bank_right" id="proveBtn">提交</a>
+    </div>
+</div>
+<div class="daturm_header">
+    <h2>证件照片需要保证清晰度,否着可能影响通过率</h2>
+</div>
+<form id="proveForm">
+<div class="raise_wrapper">
+    <div class="pe-spacer size10"></div>
+    <div class="raise_content">
+        <div class="daturm_item clearafter">
+            <h2>开户许可证</h2>
+        </div>
+        <!---图片上传放这里-->
+        <input type="file" name="upload" id="upload" onchange="return ajaxFileUpload();">
+        <div style="padding-top:10px;"><img id="openImg" src="{{$proveInfo.c_open_img}}" style="max-width:200px;"/></div>
+        <div class="order">
+            <input type="hidden" name="c_open_img" id="c_open_img" value="{{$proveInfo.c_open_img}}" />
+        </div>
+
+
+        <div class="pe-spacer size20"></div>
+        <p class="daturm_text">如缺失可用机关辅助材料</p>
+    </div>
+    <div class="pe-spacer size10"></div>
+    <div class="raise_content">
+        <div class="daturm_item clearafter">
+            <h2>组织机构证明码</h2>
+        </div>
+        <!---图片上传放这里-->
+        <input type="file" name="upload_company" id="upload_company" onchange="return ajaxFileUpload2();">
+        <div style="padding-top:10px;"><img id="companyImg" src="{{$proveInfo.c_company_img}}" style="max-width:200px;"/></div>
+        <div class="order">
+            <input type="hidden" name="c_company_img" id="c_company_img" value="{{$proveInfo.c_company_img}}" />
+        </div>
+        <div class="pe-spacer size20"></div>
+        <p class="daturm_text">如缺失可用机关辅助材料</p>
+    </div>
+    <div class="pe-spacer size10"></div>
+</div>
+    </form>
+<script>
+    $(document).ready(function(){
+        $(document).keyup();
+        $("#upload").customFileInput();
+        $("#upload_company").customFileInput();
+        $('#proveBtn').click(function(){
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url:'/ajax/company/prove',
+                data:$('#proveForm').serialize(),// 你的formid
+                async: false,
+                dataType: "json",
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    if(data.status == 'y'){
+                        location.href = '/company/register';
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            });
+        })
+    });
+
+    var processing = false;
+    function ajaxFileUpload() {
+        if ( processing == true ) {
+            return false;
+        }
+
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/company/upload/',
+            secureuri:false,
+            fileElementId:'upload',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+
+
+                if ( data.status == 'y' ) {
+                    $('#openImg').attr('src', data.info.http);
+                    $('#c_open_img').val(data.info.http);
+                    return;
+                }
+
+                alert(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                alert(e);
+            }
+        });
+    }
+
+    var processing = false;
+    function ajaxFileUpload2() {
+        if ( processing == true ) {
+            return false;
+        }
+
+        processing = true;
+        $.ajaxFileUpload({
+            url:'/company/uploadCompany/',
+            secureuri:false,
+            fileElementId:'upload_company',
+            dataType: 'json',
+            success: function (data, status){
+                setTimeout( function() {
+                    processing = false;
+                }, 500);
+
+
+                if ( data.status == 'y' ) {
+                    $('#companyImg').attr('src', data.info.http);
+                    $('#c_company_img').val(data.info.http);
+                    return;
+                }
+
+                alert(data.info);
+                return false;
+            },
+            error: function (data, status, e){
+                alert(e);
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

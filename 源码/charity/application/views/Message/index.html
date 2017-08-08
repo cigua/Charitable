@@ -1,0 +1,63 @@
+{{include file="common/header.html"}}
+
+<div class="main">
+    {{include file="common/menu.html"}}
+
+    <div id="right">
+        <!--面包屑导航-->
+        <ol class="breadcrumb">
+            <li><a href="javascript:void(0);">留言记录列表 </a></li>
+            <!--<li><a href="/admin/index/">帐号管理</a></li>-->
+            <li class="active">慈善项目留言列表</li>
+        </ol>
+
+        <div class="right_con">
+            <!--搜索区域-->
+            <form class="form-inline pull-left">
+
+                <div class="form-group">留言人姓名：
+                    <input type="text" name="title" value="{{$title}}" class="form-control" placeholder="留言人姓名">
+                </div>
+                <div class="form-group">
+                    慈善项目
+                    <select name="did" id="did" class="form-control">
+                        {{$donationOption}}
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-default">搜索</button>
+            </form>
+
+            <button type="button" class="btn btn-default pull-right" onclick="window.location.reload();">刷新界面</button>
+            <div class="clear10"></div>
+
+            <!-- 表格 -->
+            <table class="table table-bordered table-striped">
+                <tr>
+                    <td>慈善项目名称</td>
+                    <td>留言人姓名</td>
+                    <td>留言内容</td>
+                    <td>留言时间</td>
+                </tr>
+                {{if $data}}
+                {{foreach from=$data item=row}}
+                <tr>
+                    <td>{{$donationData[$row['d_id']]}}</td>
+                    <td>{{$row.me_name}}</td>
+                    <td>{{$row.me_content}}</td>
+                    <td>{{$row.me_addTime}}</td>
+                </tr>
+                {{/foreach}}
+                {{/if}}
+            </table>
+            <!-- 分页 -->
+            {{if $data}}
+            <nav>
+                <ul class="pagination pull-right">{{$page}}</ul>
+            </nav>
+            {{/if}}
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+
+{{include file="common/footer.html"}}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="width=device-width initial-scale=1.0 maximum-scale=1.0 user-scalable=yes" />
+    <title>机构认证</title>
+    <link type="text/css" rel="stylesheet" href="/public/css/skin.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/style.css" />
+    <link rel="stylesheet" href="/public/css/bootstrap-customfile.css" />
+    <link type="text/css" rel="stylesheet" href="/public/css/f-awesome/font-awesome.min.css" />
+    <script type="text/javascript" src="/public/js/jquery-2.1.4.js"></script>
+    <script src="/public/js/jquery.ajaxfileupload.js"></script>
+    <script src="/public/js/bootstrap-customfile.js"></script>
+</head>
+<body>
+<div class="find_nav">
+    <div class="header">
+        <div class="return"><a href="/"><img src="/public/images/skin/return.png"></a></div>
+        <div class="title">机构认证</div>
+        <a href="javascript:void(0);" class="bank_right" id="baseBtn">提交</a>
+    </div>
+</div>
+<form name="baseForm" id="baseForm">
+    <input type="hidden" name="checkType" id="checkType" value="1">
+    <div class="raise_wrapper">
+        <div class="raise_header">
+            <img src='/public/images/content/raise_begin_three.jpg'>
+        </div>
+        <div class="raise_content clearafter" >
+            <div class="team_header clearafter">
+                <label>组织机构资质证明</label>
+            </div>
+            <div class="pe-spacer size10"></div>
+            <div class="slide_text">请提供组织资质照片</div>
+            <!---图片上传放这里-->
+            <input accept="image/*" type="file" id="upload">
+            <div style="padding-top:10px;"><img id="openImg" src="{{$proveInfo.p_img}}" style="max-width:200px;"/></div>
+            <div class="order">
+                <input type="hidden" name="p_img" id="p_img" value="{{$proveInfo.p_img}}" />
+            </div>
+        </div>
+        <div class="pe-spacer size10"></div>
+        <div class="raise_content">
+            <div class="raise_item clearafter ">
+                <label class="color_gray">收款人银行卡</label>
+            </div>
+            <input type="hidden" name="bankInfo" id="bankInfo" value="{{$bankInfo}}">
+            <div class="read_info">
+                <a href="javascript:void(0);" id="goBank">
+                    <p><img src="/public/images/content/bank_icon.jpg">需要提供手持身份证照片</p>
+                    <div class="info_arrow"><span class="icon icon-angle-right"></span></div>
+                </a>
+            </div>
+        </div>
+        <div class="pe-spacer size10"></div>
+        <div class="raise_content clearafter">
+            <div class="raise_item clearafter">
+                <label class="color_gray">资金用途</label>
+            </div>
+            <div class="pe-spacer size10"></div>
+            <div class="slide_text">请提供可以证明需要他人帮助的证明材料</div>
+            <input accept="image/*" type="file" id="upload2">
+            <div id="imagesList">
+                {{if $proveInfo.file}}
+                {{foreach from=$proveInfo.file item=vo}}
+                <div class="img_left">
+                    <div><img src="{{$vo}}" style="max-width:200px;"/><a href="javascript:void(0);"  class="removeImg"><i class="icon-remove"></i></a></div>
+                    <div class="order">
+                        <input type="hidden" name="file[]" value="{{$vo}}" />
+                    </div>
+                </div>
+                {{/foreach}}
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</form>
+<script src="/public/js/lrz_index1.js"></script>
+<script src="/public/js/lrz_index2.js"></script>
+<script>
+    $(document).ready(function(){
+        $(document).on('click','.removeImg',function(){
+            $(this).parent().remove();
+        })
+        $(document).keyup();
+
+        $('#baseBtn').click(function(){
+            $('#checkType').val(1);
+            $.ajax({
+                cache: true,
+                type: "POST",
+                url:'/ajax/donation/prove',
+                data:$('#baseForm').serialize(),// 你的formid
+                async: false,
+                dataType: "json",
+                error: function(request) {
+                    alert("Connection error");
+                },
+                success: function(data) {
+                    if(data.status == 'y'){
+                        location.href = '/donation/success';
+                    }else{
+                        alert(data.info);
+                    }
+                }
+            });
+        })
+    });
+
+
+
+    function ajaxFileUpload(submitData) {
+        $.ajax({
+            type: "POST",
+            url: "/donation/upload",
+            data: submitData,
+            dataType:"json",
+            success: function(data){
+                if(data.status == 'y'){
+                    $('#openImg').attr('src', data.info.http);
+                    $('#p_img').val(data.info.http);
+                    return;
+                }else{
+                    alert(data.info);
+                }
+            },
+        });
+
+    }
+
+    function ajaxFileUpload2(submitData) {
+        $.ajax({
+            type: "POST",
+            url: "/donation/upload",
+            data: submitData,
+            dataType:"json",
+            success: function(data){
+                if(data.status == 'y'){
+                    var html = '<div class="img_left">';
+                    html += '<div style="position:relative"><img src="'+ data.info.http +'" style="max-width:200px;"/><a href="javascript:void(0);" class="removeImg"><i class="icon-remove" ></i></a></div>';
+                    html += '<div class="order">';
+                    html += '<input type="hidden" name="file[]" value="'+data.info.http+'" />';
+                    html += '</div>';
+                    html += '</div>';
+                    $('#imagesList').append(html);
+                    return;
+                }else{
+                    alert(data.info);
+                }
+            },
+        });
+
+    }
+
+    document.getElementById('upload').addEventListener('change', function () {
+        var that = this;
+        lrz(that.files[0], {
+            width: 800
+        })
+                .then(function (rst) {
+                    var submitData={
+                        image:rst.base64,
+                        name:rst.origin.name,
+                        fileLength:rst.base64.length
+                    };
+
+                    ajaxFileUpload(submitData);
+
+                    return rst;
+                });
+
+    });
+
+    document.getElementById('upload2').addEventListener('change', function () {
+        var that = this;
+        lrz(that.files[0], {
+            width: 800
+        })
+                .then(function (rst) {
+                    var submitData={
+                        image:rst.base64,
+                        name:rst.origin.name,
+                        fileLength:rst.base64.length
+                    };
+
+                    ajaxFileUpload2(submitData);
+                    return rst;
+                });
+
+    });
+
+
+</script>
+</body>
+</html>
